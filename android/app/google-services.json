@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "999365946215",
+    "project_id": "tribzyco-dd55c",
+    "storage_bucket": "tribzyco-dd55c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:999365946215:android:f8a99118b94c955a7a1dc2",
+        "android_client_info": {
+          "package_name": "com.example.tribzyco"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBI4urbpNKfT4ulJwQpbLfhs2TgiPiCP0c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:999365946215:android:7a33660cd1a36c317a1dc2",
+        "android_client_info": {
+          "package_name": "com.tribzy.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBI4urbpNKfT4ulJwQpbLfhs2TgiPiCP0c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
