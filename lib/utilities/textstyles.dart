@@ -31,6 +31,13 @@ class AppTextStyle {
     letterSpacing: 1,
     fontWeight: FontWeight.w500,
   );
+  static const TextStyle semibold18 = TextStyle(
+    fontFamily: 'Poppins',
+    fontSize: 18,
+    color: blackColor,
+    letterSpacing: 1,
+    fontWeight: FontWeight.w600,
+  );
   static const TextStyle semiboldpurple12 = TextStyle(
     fontFamily: 'Poppins',
     fontSize: 12,

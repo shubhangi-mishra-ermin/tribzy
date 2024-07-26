@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tribzyco/Widget/splashScreen.dart';
+import 'package:tribzyco/authenctication/completeprofile/completeprofile.dart';
 import 'package:tribzyco/authenctication/loginpage.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -34,7 +35,8 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Tribzy',
-      home: SplashScreen(),
+      home: CompleteProfileScreen()
+      // home: SplashScreen(),
     );
   }
 }
