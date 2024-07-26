@@ -27,7 +27,7 @@ class ProgressHUD extends StatelessWidget {
           ),
           Center(
             child: CircularProgressIndicator(
-              color: blackColor,
+              color: primaryColor,
             ),
             // // child:
             // // Card(

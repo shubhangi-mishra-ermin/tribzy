@@ -12,7 +12,20 @@
           "package_name": "com.example.tribzyco"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "999365946215-gh3svnt0cia2kpv61rnqo7nf1g4n3ds0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tribzyco",
+            "certificate_hash": "9e863d7342b38d5b91ae1bb8989e31a8879eefef"
+          }
+        },
+        {
+          "client_id": "999365946215-efebsu7tl572496suue0690dksu2l6gc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBI4urbpNKfT4ulJwQpbLfhs2TgiPiCP0c"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "999365946215-efebsu7tl572496suue0690dksu2l6gc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "999365946215-r4ou3khuttj02p2o5jmgn4eq4aah35o3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.tribzyco"
+              }
+            }
+          ]
         }
       }
     },
@@ -31,7 +56,20 @@
           "package_name": "com.tribzy.app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "999365946215-dh5edcp4j811osfako26sdf46fjcc1k0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tribzy.app",
+            "certificate_hash": "9e863d7342b38d5b91ae1bb8989e31a8879eefef"
+          }
+        },
+        {
+          "client_id": "999365946215-efebsu7tl572496suue0690dksu2l6gc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBI4urbpNKfT4ulJwQpbLfhs2TgiPiCP0c"
@@ -39,7 +77,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "999365946215-efebsu7tl572496suue0690dksu2l6gc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "999365946215-r4ou3khuttj02p2o5jmgn4eq4aah35o3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.tribzyco"
+              }
+            }
+          ]
         }
       }
     }

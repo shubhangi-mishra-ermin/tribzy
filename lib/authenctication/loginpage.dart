@@ -1,172 +1,161 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:tribzyco/Widget/custombutton.dart';
+import 'package:tribzyco/Widget/progressHud.dart';
 import 'package:tribzyco/Widget/textfield.dart';
-import 'package:tribzyco/authenctication/signup.dart';
-import 'package:tribzyco/globalvariables.dart';
-import 'package:tribzyco/screens/navigationpage.dart';
+import 'package:tribzyco/authenctication/authcontroller.dart';
+import 'package:tribzyco/authenctication/widget/socialmediabutton.dart';
+import 'package:tribzyco/main.dart';
 import 'package:tribzyco/utilities/colors.dart';
-import 'package:tribzyco/utilities/constants.dart';
 import 'package:tribzyco/utilities/textstyles.dart';
+import 'package:tribzyco/utilities/validatorts.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+import '../Widget/appbar.dart';
 
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
+class LoginPage extends StatelessWidget {
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final AuthController _authController = Get.put(AuthController());
 
-class _LoginPageState extends State<LoginPage> {
-  bool obscure = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SvgPicture.asset(
-              'images/appLogo.svg',
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SvgPicture.asset('icons/login.svg'),
-                1.pw,
-                Text(
-                  'Log In',
-                  style: TextStyle(
-                      fontSize: 16,
-                      color: primaryColor,
-                      fontWeight: FontWeight.bold),
-                ),
-              ],
-            )
-          ],
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 12.0),
-            child: SvgPicture.asset('icons/menu.svg'),
-          ),
-        ],
-      ),
-      backgroundColor: bgColor,
+     appBar: CustomAppBar(
+      ), backgroundColor: bgColor,
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 40),
-              Text(
-                'Welcome Back',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xff333333),
-                ),
-              ),
-              4.ph,
-              Text(
-                'Email',
-                style: AppTextStyle.mediumgrey14,
-              ),
-              1.ph,
-              TextFeildStyle(
-                hintText: 'Sammy@gmail.com',
-                fillColor: Color.fromARGB(255, 105, 110, 110),
-              ),
-              4.ph,
-              Text(
-                'Password',
-                style: AppTextStyle.mediumgrey14,
-              ),
-              1.ph,
-              TextFeildStyle(
-                obscureText: obscure,
-                hintText: '********',
-                suffixIcon: IconButton(
-                  icon: Icon(obscure ? Icons.visibility : Icons.visibility_off),
-                  onPressed: () {
-                    setState(() {
-                      obscure = !obscure;
-                    });
-                  },
-                ),
-                // decoration: InputDecoration(
-
-                //   border: OutlineInputBorder(
-                //     borderRadius: BorderRadius.circular(8),
-                //     borderSide: BorderSide(color: Colors.black26),
-                //   ),
-
-                // ),
-              ),
-              SizedBox(height: 10),
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    'Forgot Password?',
+        child: ProgressHUD(
+          isLoading: _authController.isLoading.value,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 40),
+                  Text(
+                    'Welcome Back',
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xff333333),
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  Text(
+                    'Email',
                     style: AppTextStyle.mediumgrey14,
                   ),
-                ),
-              ),
-              SizedBox(height: 30),
-              CustomButton(
-                  text: 'Log In',
-                  onPressed: () {
-                    nextPage(context, MainScreen());
+                  SizedBox(height: 8),
+                  TextFeildStyle(
+                    hintText: 'Sammy@gmail.com',
+                    fillColor: Color(0xffFAFBFB),
+                    textAlignVertical: TextAlignVertical.center,
+                    controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    onChanged: (value) {},
+                  ),
+                  SizedBox(height: 16),
+                  Text(
+                    'Password',
+                    style: AppTextStyle.mediumgrey14,
+                  ),
+                  SizedBox(height: 8),
+                  TextFeildStyle(
+                    obscureText: true,
+                    validation: FormValidators.validatePassword,
+                    textAlignVertical: TextAlignVertical.center,
+                    controller: _passwordController,
+                    hintText: '********',
+                    suffixIcon: IconButton(
+                      icon: Icon(Icons.visibility_off),
+                      onPressed: () {},
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      onPressed: () {},
+                      child: Text(
+                        'Forgot Password?',
+                        style: AppTextStyle.mediumgrey14,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 30),
+                  Obx(() {
+                    return CustomButton(
+                      text: 'Log In',
+                      onPressed: _authController.isLoading.value
+                          ? () {}
+                          : () {
+                              if (_formKey.currentState!.validate()) {
+                                _authController.login(
+                                  _emailController.text.trim(),
+                                  _passwordController.text.trim(),
+                                );
+                              }
+                            },
+                    );
                   }),
-              SizedBox(height: 20),
-              GestureDetector(
-                onTap: () {
-                  nextPage(context, SignupPage());
-                },
-                child: Center(
-                  child: Text.rich(
-                    TextSpan(
-                      text: "Don't have an account? ",
-                      style: AppTextStyle.mediumgrey14,
-                      children: [
+                  SizedBox(height: 20),
+                  GestureDetector(
+                    onTap: _authController.navigateToSignUp,
+                    child: Center(
+                      child: Text.rich(
                         TextSpan(
-                          text: 'sign up',
-                          style: TextStyle(color: primaryColor),
+                          text: "Don't have an account? ",
+                          style: AppTextStyle.mediumgrey14,
+                          children: [
+                            TextSpan(
+                              text: 'sign up',
+                              style: TextStyle(color: primaryColor),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
                   ),
-                ),
-              ),
-              5.ph,
-              Row(
-                children: [
-                  Expanded(child: Divider(thickness: 1)),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Text(
-                      'Or Continue with',
-                      style: AppTextStyle.mediumgrey14.copyWith(fontSize: 12),
-                    ),
+                  SizedBox(height: 40),
+                  Row(
+                    children: [
+                      Expanded(child: Divider(thickness: 1)),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Text(
+                          'Or Continue with',
+                          style:
+                              AppTextStyle.mediumgrey14.copyWith(fontSize: 12),
+                        ),
+                      ),
+                      Expanded(child: Divider(thickness: 1)),
+                    ],
                   ),
-                  Expanded(child: Divider(thickness: 1)),
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SocialLoginButton(
+                        iconPath: 'icons/google_logo.svg',
+                        onPressed: _authController.signInWithGoogle,
+                      ),
+                      SizedBox(width: 20),
+                      SocialLoginButton(
+                        iconPath: 'icons/app_logo.svg',
+                      ),
+                      SizedBox(width: 20),
+                      SocialLoginButton(iconPath: 'icons/fb_logo.svg',
+                        onPressed: _authController.signInWithFacebook,
+                      ),
+                    ],
+                  ),
                 ],
               ),
-              SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SocialLoginButton(iconPath: 'icons/google_logo.svg'),
-                  SizedBox(width: 20),
-                  SocialLoginButton(iconPath: 'icons/app_logo.svg'),
-                  SizedBox(width: 20),
-                  SocialLoginButton(iconPath: 'icons/fb_logo.svg'),
-                ],
-              ),
-            ],
+            ),
           ),
         ),
       ),
@@ -174,20 +163,4 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 
-class SocialLoginButton extends StatelessWidget {
-  final String iconPath;
 
-  const SocialLoginButton({required this.iconPath});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.black26),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: SvgPicture.asset(iconPath, height: 24),
-    );
-  }
-}

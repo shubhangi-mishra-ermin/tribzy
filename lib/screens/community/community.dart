@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:tribzyco/Widget/appbar.dart';
 import 'package:tribzyco/Widget/communitycard.dart';
 import 'package:tribzyco/Widget/custombutton.dart';
 import 'package:tribzyco/Widget/customimagebutton.dart';
 import 'package:tribzyco/globalvariables.dart';
+import 'package:tribzyco/main.dart';
 import 'package:tribzyco/screens/community/communitydetails.dart';
 import 'package:tribzyco/screens/navigationpage.dart';
 import 'package:tribzyco/utilities/colors.dart';
@@ -20,38 +22,7 @@ class _CommunityPageState extends State<CommunityPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 12.0),
-              child: SvgPicture.asset(
-                'images/appLogo.svg',
-              ),
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SvgPicture.asset('icons/login.svg'),
-                1.pw,
-                Text(
-                  'Log In',
-                  style: TextStyle(
-                      fontSize: 16,
-                      color: primaryColor,
-                      fontWeight: FontWeight.bold),
-                ),
-              ],
-            )
-          ],
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 12.0),
-            child: SvgPicture.asset('icons/menu.svg'),
-          ),
-        ],
+appBar: CustomAppBar(
       ),
       body: SingleChildScrollView(
         child: Padding(

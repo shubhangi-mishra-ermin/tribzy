@@ -1,8 +1,13 @@
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:tribzyco/Widget/appbar.dart';
 import 'package:tribzyco/Widget/custombutton.dart';
+import 'package:tribzyco/authenctication/loginpage.dart';
+import 'package:tribzyco/globalvariables.dart';
+import 'package:tribzyco/main.dart';
 import 'package:tribzyco/utilities/colors.dart';
 import 'package:tribzyco/utilities/constants.dart';
 import 'package:tribzyco/utilities/textstyles.dart';
@@ -15,6 +20,22 @@ class CommunityDetails extends StatefulWidget {
 }
 
 class _CommunityDetailsState extends State<CommunityDetails> {
+  late String _currentUserCredential;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentUserCredential = '';
+    _getCurrentUserCredential();
+  }
+
+  Future<void> _getCurrentUserCredential() async {
+    final user = FirebaseAuth.instance.currentUser;
+    setState(() {
+      _currentUserCredential = user != null ? user.uid : '';
+    });
+  }
+
   final List<String> imageList = [
     'images/communityImg.svg',
     'images/communityImg.svg',
@@ -26,36 +47,7 @@ class _CommunityDetailsState extends State<CommunityDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: bgColor,
-      appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SvgPicture.asset(
-              'images/appLogo.svg',
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SvgPicture.asset('icons/login.svg'),
-                1.pw,
-                Text(
-                  'Log In',
-                  style: TextStyle(
-                      fontSize: 16,
-                      color: primaryColor,
-                      fontWeight: FontWeight.bold),
-                ),
-              ],
-            )
-          ],
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 12.0),
-            child: SvgPicture.asset('icons/menu.svg'),
-          ),
-        ],
-      ),
+      appBar: CustomAppBar(),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,7 +91,9 @@ class _CommunityDetailsState extends State<CommunityDetails> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: imageList.asMap().entries.map((entry) {
                     return GestureDetector(
-                      onTap: () => _current = entry.key,
+                      onTap: () => setState(() {
+                        _current = entry.key;
+                      }),
                       child: Container(
                         width: 8.0,
                         height: 8.0,
@@ -226,7 +220,18 @@ class _CommunityDetailsState extends State<CommunityDetails> {
                   SizedBox(height: 10),
                   CommunitySurroundings(),
                   2.ph,
-                  CustomButton(text: 'Join Community', onPressed: () {}),
+                  CustomButton(
+                    text: 'Join Community',
+                    onPressed: _currentUserCredential.isNotEmpty
+                        ? () {
+                            showSucessMessage(context, "Successfully joined");
+                            // Handle successful join
+                          }
+                        : () {
+                            nextPage(context, LoginPage());
+                          },
+                  ),
+                  8.ph
                 ],
               ),
             ),
