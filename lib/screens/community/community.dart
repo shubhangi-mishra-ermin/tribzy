@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:tribzyco/Widget/appbar.dart';
 import 'package:tribzyco/Widget/communitycard.dart';
 import 'package:tribzyco/Widget/custombutton.dart';
-import 'package:tribzyco/Widget/customimagebutton.dart';
-import 'package:tribzyco/globalvariables.dart';
-import 'package:tribzyco/main.dart';
+import 'package:tribzyco/screens/community/communitycontroller.dart';
 import 'package:tribzyco/screens/community/communitydetails.dart';
 import 'package:tribzyco/screens/navigationpage.dart';
-import 'package:tribzyco/utilities/colors.dart';
-import 'package:tribzyco/utilities/constants.dart';
 
 class CommunityPage extends StatefulWidget {
   const CommunityPage({super.key});
@@ -19,11 +15,12 @@ class CommunityPage extends StatefulWidget {
 }
 
 class _CommunityPageState extends State<CommunityPage> {
+  final CommunityController _communityController = Get.put(CommunityController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-appBar: CustomAppBar(
-      ),
+      appBar: CustomAppBar(),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12),
@@ -38,42 +35,46 @@ appBar: CustomAppBar(
                 ),
               ),
               SizedBox(height: 8),
-              // ListView.builder(itemBuilder: itemBuilder)
-              ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: 9,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      nextPage(context, CommunityDetails());
-                    },
-                    child: CommunityCard(
-                      rating: 4.2,
-                      type: 'Private',
-                      category: 'Furnished',
-                      name: 'BLVD Gainesville',
-                      address: '4000 SW 37th Blvd, Gainesville, FL 32608',
-                      imageUrl: 'images/commImg1.svg',
-                    ),
+             Obx(() {
+                return ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: _communityController.communityList.length,
+                  itemBuilder: (context, index) {
+                    final community = _communityController.communityList[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CommunityDetails(
+                              // communityData: community, // Pass the community data here
+                            ),
+                          ),
+                        );
+                      },
+                      child: CommunityCard(
+                        rating: community['rating'],
+                        type: community['type'],
+                        category: community['furnishing'],
+                        name: community['name'],
+                        address: 'Distance from UF: ${community['distance_from_UF']}',
+                        imageUrl: community['image_url'],
+                      ),
+                    );
+                  },
+                );
+              }),SizedBox(height: 16),
+              CustomButton(
+                text: 'View more Communities',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MainScreen(initialIndex: 2)),
                   );
                 },
               ),
-
-              // CommunityCard(
-              //   name: 'Stoneridge',
-              //   address: '3800 SW 34th St, Gainesville, FL 32608',
-              //   imageUrl: 'assets/stoneridge.jpg',
-              // ),
-              SizedBox(height: 16),
-              // CustomButton(
-              //     text: 'View more Communities',
-              //     onPressed: () {
-              //       MainScreen(
-              //         initialIndex: 2,
-              //       );
-              //     }),
-              // SizedBox(height: 56),
+              SizedBox(height: 56),
             ],
           ),
         ),

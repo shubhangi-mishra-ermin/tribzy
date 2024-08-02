@@ -24,8 +24,14 @@ Future<void> main() async {
     androidProvider: AndroidProvider.playIntegrity,
     // appleProvider: AppleProvider.appAttest,
   );
+  // await signOutUser();
+
   runApp(const MyApp());
 }
+
+// Future<void> signOutUser() async {
+//   await FirebaseAuth.instance.signOut();
+// }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -33,10 +39,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Tribzy',
-      home: CompleteProfileScreen()
-      // home: SplashScreen(),
-    );
+        debugShowCheckedModeBanner: false,
+        title: 'Tribzy',
+        // home: CompleteProfileScreen(
+        //   userId: '',
+        // )
+        home: SplashScreen(),
+        );
   }
 }

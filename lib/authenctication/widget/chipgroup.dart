@@ -5,10 +5,12 @@ import 'package:tribzyco/utilities/colors.dart'; // Ensure this file contains th
 class CustomChipGroup extends StatefulWidget {
   final String label;
   final List<String> options;
+  final Function(List<String>) onChanged;
 
   CustomChipGroup({
     required this.label,
     required this.options,
+    required this.onChanged,
   });
 
   @override
@@ -17,11 +19,23 @@ class CustomChipGroup extends StatefulWidget {
 
 class _CustomChipGroupState extends State<CustomChipGroup> {
   late List<bool> _selectedOptions;
+  late List<String> _selectedValues;
 
   @override
   void initState() {
     super.initState();
     _selectedOptions = List<bool>.generate(widget.options.length, (_) => false);
+    _selectedValues = [];
+  }
+
+  void _updateSelectedValues() {
+    _selectedValues = [];
+    for (int i = 0; i < _selectedOptions.length; i++) {
+      if (_selectedOptions[i]) {
+        _selectedValues.add(widget.options[i]);
+      }
+    }
+    widget.onChanged(_selectedValues);
   }
 
   @override
@@ -49,6 +63,7 @@ class _CustomChipGroupState extends State<CustomChipGroup> {
               onSelected: (bool selected) {
                 setState(() {
                   _selectedOptions[index] = selected;
+                  _updateSelectedValues();
                 });
               },
               shape: RoundedRectangleBorder(
@@ -60,7 +75,6 @@ class _CustomChipGroupState extends State<CustomChipGroup> {
               backgroundColor: Colors.white,
               selectedColor: Colors.transparent,
               labelPadding: EdgeInsets.symmetric(horizontal: 6),
-              //  checkmarkColor: Colors.transparent,
               showCheckmark: false,
             );
           }),

@@ -28,7 +28,6 @@ class _CommunityCardState extends State<CommunityCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),
       ),
@@ -36,7 +35,7 @@ class _CommunityCardState extends State<CommunityCard> {
         borderRadius: BorderRadius.circular(12.0),
         child: Row(
           children: [
-            SvgPicture.asset(
+            Image.network(
               widget.imageUrl,
               width: 120,
               height: 120,
@@ -58,13 +57,13 @@ class _CommunityCardState extends State<CommunityCard> {
                       maxLines: widget.type != '' ? 1 : null,
                       style: AppTextStyle.medium14.copyWith(color: greyColor),
                     ),
-                    SizedBox(height: 8),
+                    if (widget.type != '') SizedBox(height: 8),
                     if (widget.type != '')
                       Text(
                         '${widget.type} | ${widget.category}',
                         style: AppTextStyle.medium14.copyWith(color: greyColor),
                       ),
-                    SizedBox(height: 8),
+                    if (widget.type != '') SizedBox(height: 8),
                     widget.rating == 0.0
                         ? TextButton(
                             onPressed: () {},

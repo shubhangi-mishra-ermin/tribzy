@@ -26,7 +26,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   List<Widget> _buildScreens() => [
-        const HomeScreen(),
+         HomeScreen(),
         const CommunityPage(),
         const EventPage(),
         const ProfilePage()
@@ -34,7 +34,7 @@ class _MainScreenState extends State<MainScreen> {
 
   List<PersistentTabConfig> _navBarsItems() => [
         PersistentTabConfig(
-          screen: const HomeScreen(),
+          screen:  HomeScreen(),
           item: ItemConfig(
             activeColorSecondary: primaryColor,
             textStyle: TextStyle(

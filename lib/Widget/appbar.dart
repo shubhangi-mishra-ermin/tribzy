@@ -20,7 +20,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
   @override
   void initState() {
     super.initState();
-    _currentUserCredential = ''; 
+    _currentUserCredential = '';
     _getCurrentUserCredential();
   }
 
@@ -36,6 +36,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
     final _auth = FirebaseAuth.instance;
 
     return AppBar(
+      automaticallyImplyLeading: false,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -66,10 +67,11 @@ class _CustomAppBarState extends State<CustomAppBar> {
                         setState(() {
                           _currentUserCredential = '';
                         });
-                        Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                                builder: (context) => LoginPage()),
-                            (Route<dynamic> route) => false);
+                        nextPage(context, LoginPage());
+                        // Navigator.of(context).pushAndRemoveUntil(
+                        //     MaterialPageRoute(
+                        //         builder: (context) => LoginPage()),
+                        //     (Route<dynamic> route) => false);
                       },
                       child: Text(
                         'Log out',

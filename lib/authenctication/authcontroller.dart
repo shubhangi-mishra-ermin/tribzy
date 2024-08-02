@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:tribzyco/authenctication/completeprofile/completeprofile.dart';
 import 'package:tribzyco/authenctication/signup.dart';
+import 'package:tribzyco/main.dart';
 import 'package:tribzyco/screens/navigationpage.dart';
 
 class AuthController extends GetxController {
@@ -30,16 +33,47 @@ class AuthController extends GetxController {
     Get.to(() => SignupPage());
   }
 
-  Future<void> signUpWithEmailPassword(String email, String password) async {
-    isLoading(true);
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  void signUpWithEmailPassword(String email, String password) async {
     try {
-      await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
-      Get.offAll(() => MainScreen());
+      isLoading.value = true;
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      print("userCredential :: $userCredential");
+      print("currentUserCredential :: $currentUserCredential");
+      print(
+          "FirebaseAuth.instance.currentUse :: ${FirebaseAuth.instance.currentUser?.uid ?? ""}");
+
+      String userId = FirebaseAuth.instance.currentUser?.uid ?? "";
+// final user = FirebaseAuth.instance.currentUser!;
+// String currentUserCredential = user.uid;
+      await firestore.collection('Users').doc(userId).set({
+        'age': '',
+        'career_path': '',
+        'country': '',
+        'degree_type': '',
+        'diet_preference': '',
+        'gender': '',
+        'interests': [],
+        'major': '',
+        'personality': '',
+        'pet_friendly': true,
+        'rating_cookingskill': '',
+        'sleep_pattern': '',
+        'smoke_or_drink': '',
+        'state': '',
+        'travel': '',
+      });
+
+      Get.off(() => CompleteProfileScreen(userId: userId));
     } catch (e) {
-      Get.snackbar("Error", e.toString(), snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar('Error', e.toString());
     } finally {
-      isLoading(false);
+      isLoading.value = false;
     }
   }
 

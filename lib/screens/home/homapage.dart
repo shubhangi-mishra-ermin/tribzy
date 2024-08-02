@@ -1,32 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:tribzyco/Widget/appbar.dart';
 import 'package:tribzyco/Widget/communitycard.dart';
 import 'package:tribzyco/Widget/custombutton.dart';
-import 'package:tribzyco/Widget/customimagebutton.dart';
-import 'package:tribzyco/Widget/customtextbutton.dart';
 import 'package:tribzyco/globalvariables.dart';
-import 'package:tribzyco/main.dart';
-import 'package:tribzyco/screens/community/community.dart';
+import 'package:tribzyco/screens/community/communitycontroller.dart';
 import 'package:tribzyco/screens/community/communitydetails.dart';
-import 'package:tribzyco/screens/navigationpage.dart';
+import 'package:tribzyco/screens/community/community.dart';
 import 'package:tribzyco/utilities/colors.dart';
-import 'package:tribzyco/utilities/constants.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends StatelessWidget {
+  final CommunityController _communityController =
+      Get.put(CommunityController());
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     appBar: CustomAppBar(
-      ), body: SingleChildScrollView(
+      appBar: CustomAppBar(),
+      body: SingleChildScrollView(
         child: Column(
           children: [
             Container(
@@ -60,7 +52,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
-                    // mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
@@ -71,51 +62,52 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            'View all',
-                            style: TextStyle(color: primaryColor),
-                          )),
-                      // CustomTextButton(
-                      //   text: 'View All',
-                      //   onPressed: () {},
-                      //   fontSize: 12,
-                      // )
+                        onPressed: () {
+                          nextPage(context, CommunityPage());
+                        },
+                        child: Text(
+                          'View all',
+                          style: TextStyle(color: primaryColor),
+                        ),
+                      ),
                     ],
                   ),
                   SizedBox(height: 8),
-                  GestureDetector(
-                    onTap: () {
-                      nextPage(context, CommunityDetails());
-                    },
-                    child: CommunityCard(
-                      name: 'BLVD Gainesville',
-                      address: '4000 SW 37th Blvd, Gainesville, FL 32608',
-                      imageUrl: 'images/commImg1.svg',
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  GestureDetector(
-                    onTap: () {
-                      nextPage(context, CommunityDetails());
-                    },
-                    child: CommunityCard(
-                      name: 'Stoneridge ',
-                      address: '3800 SW 34th St, Gainesville, FL 32608',
-                      imageUrl: 'images/commImg2.svg',
-                    ),
-                  ),
-                  // CommunityCard(
-                  //   name: 'Stoneridge',
-                  //   address: '3800 SW 34th St, Gainesville, FL 32608',
-                  //   imageUrl: 'assets/stoneridge.jpg',
-                  // ),
-                  SizedBox(height: 16),
+                  Obx(() {
+                    return ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: _communityController.communityList.length < 3
+                          ? _communityController.communityList.length
+                          : 3,
+                      itemBuilder: (context, index) {
+                        final community = _communityController.communityList[index];
+                        return GestureDetector(
+                         onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CommunityDetails(
+                              // communityData: community, // Pass the community data here
+                            ),
+                          ),
+                        );
+                      },
+                          child: CommunityCard(
+                            name: community['name'],
+                            address: 'Distance from UF: ${community['distance_from_UF']}',
+                            imageUrl: community['image_url'],
+                          ),
+                        );
+                      },
+                    );
+                  }),SizedBox(height: 16),
                   CustomButton(
-                      text: 'View more Communities',
-                      onPressed: () {
-                        // nextPage(context, CommunityPage());
-                      }),
+                    text: 'View more Communities',
+                    onPressed: () {
+                      nextPage(context, CommunityPage());
+                    },
+                  ),
                   SizedBox(height: 56),
                 ],
               ),

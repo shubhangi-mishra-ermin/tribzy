@@ -7,12 +7,14 @@ class CustomSliderGroup extends StatefulWidget {
   final double initialValue;
   final double min;
   final double max;
+  final Function(double) onChanged;
 
   CustomSliderGroup({
     required this.label,
     required this.initialValue,
     required this.min,
     required this.max,
+    required this.onChanged,
   });
 
   @override
@@ -59,6 +61,7 @@ class _CustomSliderGroupState extends State<CustomSliderGroup> {
             onChanged: (double newValue) {
               setState(() {
                 _currentValue = newValue;
+                widget.onChanged(_currentValue);
               });
             },
           ),

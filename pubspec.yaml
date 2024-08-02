@@ -93,6 +93,8 @@ flutter:
     - images/
     - icons/
     - fonts/
+    # - data/
+    - data/community_list.json
   fonts:
     - family: Poppins
       fonts:
