@@ -81,34 +81,38 @@ class HomeScreen extends StatelessWidget {
                           ? _communityController.communityList.length
                           : 3,
                       itemBuilder: (context, index) {
-                        final community = _communityController.communityList[index];
+                        final community =
+                            _communityController.communityList[index];
                         return GestureDetector(
-                         onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CommunityDetails(
-                              // communityData: community, // Pass the community data here
-                            ),
-                          ),
-                        );
-                      },
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CommunityDetails(
+                                  communityName: community['name'],
+                                  // communityData: community, // Pass the community data here
+                                ),
+                              ),
+                            );
+                          },
                           child: CommunityCard(
                             name: community['name'],
-                            address: 'Distance from UF: ${community['distance_from_UF']}',
+                            address:
+                                'Distance from UF: ${community['distance_from_UF']}',
                             imageUrl: community['image_url'],
                           ),
                         );
                       },
                     );
-                  }),SizedBox(height: 16),
+                  }),
+                  SizedBox(height: 16),
                   CustomButton(
                     text: 'View more Communities',
                     onPressed: () {
                       nextPage(context, CommunityPage());
                     },
                   ),
-                  SizedBox(height: 56),
+                  // SizedBox(height: 56),
                 ],
               ),
             ),

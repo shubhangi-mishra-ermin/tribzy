@@ -35,7 +35,8 @@ class AuthController extends GetxController {
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  void signUpWithEmailPassword(String email, String password) async {
+  void signUpWithEmailPassword(
+      String email, String password, String username) async {
     try {
       isLoading.value = true;
       UserCredential userCredential =
@@ -52,6 +53,12 @@ class AuthController extends GetxController {
 // final user = FirebaseAuth.instance.currentUser!;
 // String currentUserCredential = user.uid;
       await firestore.collection('Users').doc(userId).set({
+        'email': email,
+        'password': password,
+        'username': username,
+        'profile_complete': false,
+        'profile_pic': '',
+        'dob': '',
         'age': '',
         'career_path': '',
         'country': '',

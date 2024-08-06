@@ -58,6 +58,7 @@ class _EventPageState extends State<EventPage> {
                   );
                 },
               ),
+              SizedBox(height: 8),
               // Text("data"),
               GestureDetector(
                 onTap: () {
@@ -82,9 +83,9 @@ class _EventPageState extends State<EventPage> {
               //   address: '3800 SW 34th St, Gainesville, FL 32608',
               //   imageUrl: 'assets/stoneridge.jpg',
               // ),
-              SizedBox(height: 46),
+              // SizedBox(height: 46),
               // Text("Texttttttttt"),
-              SizedBox(height: 16),
+              // SizedBox(height: 16),
 
               // CustomButton(
               //     text: 'View more Communities',

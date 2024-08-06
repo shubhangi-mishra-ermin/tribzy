@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:tribzyco/screens/community/community.dart';
 import 'package:tribzyco/screens/event/event.dart';
 import 'package:tribzyco/screens/home/homapage.dart';
@@ -17,72 +16,81 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  late PersistentTabController _controller;
+  late int _selectedIndex;
 
   @override
   void initState() {
     super.initState();
-    _controller = PersistentTabController(initialIndex: widget.initialIndex);
+    _selectedIndex = widget.initialIndex;
   }
 
-  List<Widget> _buildScreens() => [
-         HomeScreen(),
-        const CommunityPage(),
-        const EventPage(),
-        const ProfilePage()
-      ];
+  final List<Widget> _screens = [
+    HomeScreen(),
+    const CommunityPage(),
+    const EventPage(),
+    const ProfilePage(),
+  ];
 
-  List<PersistentTabConfig> _navBarsItems() => [
-        PersistentTabConfig(
-          screen:  HomeScreen(),
-          item: ItemConfig(
-            activeColorSecondary: primaryColor,
-            textStyle: TextStyle(
-                fontSize: 10, fontWeight: FontWeight.bold, color: primaryColor),
-            icon: SvgPicture.asset('icons/homeicon_filled.svg'),
-            inactiveIcon: SvgPicture.asset('icons/homeicon.svg'),
-            title: "Home",
-          ),
-        ),
-        PersistentTabConfig(
-          screen: const CommunityPage(),
-          item: ItemConfig(
-            textStyle: TextStyle(
-                fontSize: 10, fontWeight: FontWeight.bold, color: primaryColor),
-            icon: SvgPicture.asset('icons/comm_icon_filled.svg'),
-            inactiveIcon: SvgPicture.asset('icons/comm_icon.svg'),
-            title: "Community",
-          ),
-        ),
-        PersistentTabConfig(
-          screen: const EventPage(),
-          item: ItemConfig(
-            textStyle: TextStyle(
-                fontSize: 10, fontWeight: FontWeight.bold, color: primaryColor),
-            icon: SvgPicture.asset('icons/event_filled.svg'),
-            inactiveIcon: SvgPicture.asset('icons/eventicon.svg'),
-            title: "Event",
-          ),
-        ),
-        PersistentTabConfig(
-          screen: const ProfilePage(),
-          item: ItemConfig(
-            textStyle: TextStyle(
-                fontSize: 10, fontWeight: FontWeight.bold, color: primaryColor),
-            icon: SvgPicture.asset('icons/profile_filled.svg'),
-            inactiveIcon: SvgPicture.asset('icons/profileicon.svg'),
-            title: "Profile",
-          ),
-        ),
-      ];
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  BottomNavigationBarItem _buildNavItem(
+      {required String activeIconPath,
+      required String inactiveIconPath,
+      required String title}) {
+    return BottomNavigationBarItem(
+      icon: SvgPicture.asset(inactiveIconPath),
+      activeIcon: SvgPicture.asset(activeIconPath),
+      label: title,
+    );
+  }
 
   @override
-  Widget build(BuildContext context) => PersistentTabView(
-        navBarBuilder: (navBarConfig) => Style1BottomNavBar(
-          navBarConfig: navBarConfig,
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _screens[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          _buildNavItem(
+            activeIconPath: 'icons/homeicon_filled.svg',
+            inactiveIconPath: 'icons/homeicon.svg',
+            title: 'Home',
+          ),
+          _buildNavItem(
+            activeIconPath: 'icons/comm_icon_filled.svg',
+            inactiveIconPath: 'icons/comm_icon.svg',
+            title: 'Community',
+          ),
+          _buildNavItem(
+            activeIconPath: 'icons/event_filled.svg',
+            inactiveIconPath: 'icons/eventicon.svg',
+            title: 'Event',
+          ),
+          _buildNavItem(
+            activeIconPath: 'icons/profile_filled.svg',
+            inactiveIconPath: 'icons/profileicon.svg',
+            title: 'Profile',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: primaryColor,
+        unselectedItemColor: Colors.grey,
+        onTap: _onItemTapped,
+        type: BottomNavigationBarType.fixed,
+        selectedLabelStyle: TextStyle(
+          fontSize: 10,
+          fontWeight: FontWeight.bold,
+          color: primaryColor,
         ),
-        tabs: _navBarsItems(),
-        controller: _controller,
-        navBarHeight: 60.0,
-      );
+        unselectedLabelStyle: TextStyle(
+          fontSize: 10,
+          fontWeight: FontWeight.bold,
+          color: Colors.grey,
+        ),
+      ),
+    );
+  }
 }

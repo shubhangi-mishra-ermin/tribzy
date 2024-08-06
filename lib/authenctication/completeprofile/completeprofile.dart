@@ -22,8 +22,10 @@ class CompleteProfileController extends GetxController {
   var currentStep = 1.obs;
   var isLoading = false.obs;
 
-  final TextEditingController countryController = TextEditingController();
-  final TextEditingController stateController = TextEditingController();
+  final TextEditingController countryController =
+      TextEditingController(text: 'Select Country');
+  final TextEditingController stateController =
+      TextEditingController(text: 'Select State');
   final TextEditingController ageController = TextEditingController();
   final TextEditingController majorController = TextEditingController();
   final TextEditingController degreeTypeController = TextEditingController();
@@ -257,6 +259,7 @@ class StepperIndicator extends StatelessWidget {
 }
 
 class Step1Content extends StatefulWidget {
+  final bool showHeading;
   final TextEditingController countryController;
   final TextEditingController stateController;
   final TextEditingController ageController;
@@ -266,6 +269,7 @@ class Step1Content extends StatefulWidget {
 
   const Step1Content({
     required this.countryController,
+    this.showHeading = true,
     required this.stateController,
     required this.ageController,
     required this.petFriendlyCallback,
@@ -291,11 +295,12 @@ class _Step1ContentState extends State<Step1Content> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Habits and Preferences',
-              style: AppTextStyle.semibold18,
-            ),
-            SizedBox(height: 20),
+            if (widget.showHeading)
+              Text(
+                'Habits and Preferences',
+                style: AppTextStyle.semibold18,
+              ),
+            if (widget.showHeading) SizedBox(height: 20),
             CustomDropdownField(
               label: 'Which country are you from?',
               controller: widget.countryController,
@@ -339,6 +344,7 @@ class _Step1ContentState extends State<Step1Content> {
 }
 
 class Step2Content extends StatefulWidget {
+  final bool showHeading;
   final Function(String) genderCallback;
   final Function(String) personalityCallback;
   final Function(List<String>) interestsCallback;
@@ -347,6 +353,7 @@ class Step2Content extends StatefulWidget {
   final Function(String) travelFrequencyCallback;
 
   const Step2Content({
+    this.showHeading = true,
     required this.genderCallback,
     required this.personalityCallback,
     required this.interestsCallback,
@@ -373,11 +380,12 @@ class _Step2ContentState extends State<Step2Content> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Characteristics and Interests',
-              style: AppTextStyle.semibold18,
-            ),
-            SizedBox(height: 20),
+            if (widget.showHeading)
+              Text(
+                'Characteristics and Interests',
+                style: AppTextStyle.semibold18,
+              ),
+            if (widget.showHeading) SizedBox(height: 20),
             CustomRadioGroup(
               label: 'What is your gender?',
               options: ['Male', 'Female', 'Other'],
@@ -438,11 +446,13 @@ class _Step2ContentState extends State<Step2Content> {
 }
 
 class Step3Content extends StatefulWidget {
+  final bool showHeading;
   final TextEditingController majorController;
   final TextEditingController degreeTypeController;
   final TextEditingController careerPathController;
 
   const Step3Content({
+    this.showHeading = true,
     required this.majorController,
     required this.degreeTypeController,
     required this.careerPathController,
@@ -466,11 +476,12 @@ class _Step3ContentState extends State<Step3Content> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Academic and Background',
-              style: AppTextStyle.semibold18,
-            ),
-            SizedBox(height: 20),
+            if (widget.showHeading)
+              Text(
+                'Academic and Background',
+                style: AppTextStyle.semibold18,
+              ),
+            if (widget.showHeading) SizedBox(height: 20),
             CustomDropdownField(
               label: '13. What is your major?',
               controller: widget.majorController,

@@ -85,12 +85,12 @@ class _CustomAppBarState extends State<CustomAppBar> {
           ),
         ],
       ),
-      actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 12.0),
-          child: SvgPicture.asset('icons/menu.svg'),
-        ),
-      ],
+      // actions: [
+      //   Padding(
+      //     padding: const EdgeInsets.only(right: 12.0),
+      //     child: SvgPicture.asset('icons/menu.svg'),
+      //   ),
+      // ],
     );
   }
 }

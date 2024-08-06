@@ -102,8 +102,10 @@ class SignupPage extends StatelessWidget {
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 authController.signUpWithEmailPassword(
+
                                   _emailController.text.trim(),
                                   _passwordController.text.trim(),
+                                  _nameController.text,
                                 );
                               }
                             },

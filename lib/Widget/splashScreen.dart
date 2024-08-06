@@ -7,6 +7,7 @@ import 'package:tribzyco/authenctication/loginpage.dart';
 import 'package:tribzyco/main.dart';
 import 'package:tribzyco/screens/home/homapage.dart';
 import 'package:tribzyco/screens/navigationpage.dart';
+import 'package:tribzyco/screens/onboardingScreens/OnBoarding.dart';
 
 import 'package:tribzyco/utilities/colors.dart';
 
@@ -30,19 +31,20 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(
         Duration(seconds: 2),
         () => Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => MainScreen())));
-    // MaterialPageRoute(
-    //     builder: (context) =>
-    //         user != null ? MainScreen() : LoginPage())));
+            context,
+            // MaterialPageRoute(builder: (context) => OnBoarding())));
+            MaterialPageRoute(
+                builder: (context) =>
+                    user != null ? MainScreen() : OnBoarding())));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffE7DEFF),
+      backgroundColor: primaryColor,
       body: SafeArea(
           child: Center(
-        child: SvgPicture.asset('images/groupimage_home.svg'),
+        child: SvgPicture.asset('icons/appLogo.svg'),
       )
           // Column(
           //   mainAxisAlignment: MainAxisAlignment.spaceBetween,

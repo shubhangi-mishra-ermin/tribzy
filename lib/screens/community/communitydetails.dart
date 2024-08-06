@@ -14,12 +14,14 @@ import 'package:tribzyco/utilities/colors.dart';
 import 'package:tribzyco/utilities/textstyles.dart';
 
 class CommunityDetails extends StatelessWidget {
-  const CommunityDetails({super.key});
+  final String communityName; // Add this parameter
+
+  const CommunityDetails({super.key, required this.communityName});
 
   @override
   Widget build(BuildContext context) {
-    final CommunityDetailsController controller =
-        Get.put(CommunityDetailsController());
+    final CommunityDetailsController controller = Get.put(CommunityDetailsController(communityName: communityName));
+
     final Map<String, String> amenityIconMapping = {
       'bedroom': 'icons/bedroom.svg',
       'private': 'icons/room.svg',
@@ -50,7 +52,7 @@ class CommunityDetails extends StatelessWidget {
         }
 
         final communityData = controller.communityData;
-        final currentUserCredential = controller.currentUserCredential.value;
+        // final currentUserCredential = controller.currentUserCredential.value;
 
         return SingleChildScrollView(
           child: Column(
@@ -194,17 +196,17 @@ class CommunityDetails extends StatelessWidget {
                           .join(', '),
                     ),
                     SizedBox(height: 20),
-                    CustomButton(
-                      text: 'Join Community',
-                      onPressed: currentUserCredential.isNotEmpty
-                          ? () {
-                              showSucessMessage(context, "Successfully joined");
-                              // Handle successful join
-                            }
-                          : () {
-                              nextPage(context, LoginPage());
-                            },
-                    ),
+                    // CustomButton(
+                    //   text: 'Join Community',
+                    //   onPressed: currentUserCredential != null
+                    //       ? () {
+                    //           showSucessMessage(context, "Successfully joined");
+                    //           // Handle successful join
+                    //         }
+                    //       : () {
+                    //           nextPage(context, LoginPage());
+                    //         },
+                    // ),
                     SizedBox(height: 8),
                   ],
                 ),
@@ -376,23 +378,19 @@ class SurroundingDetail extends StatelessWidget {
 }
 
 class CommunityDetailsController extends GetxController {
-  var isLoading = true.obs;
   var communityData = {}.obs;
-  var currentUserCredential = ''.obs;
+  var currentUserCredential = FirebaseAuth.instance.currentUser.obs;
+  var isLoading = true.obs;
+  final String communityName;
+
+  CommunityDetailsController({required this.communityName});
 
   @override
   void onInit() {
     super.onInit();
-    _getCurrentUserCredential();
-    _loadCommunityData();
+    loadCommunityData();
   }
-
-  Future<void> _getCurrentUserCredential() async {
-    final user = FirebaseAuth.instance.currentUser;
-    currentUserCredential.value = user != null ? user.uid : '';
-  }
-
-  Future<void> _loadCommunityData() async {
+ Future<void> loadCommunityData() async {
     final String response =
         await rootBundle.loadString('data/community_info.json');
     final data = json.decode(response);
@@ -400,4 +398,21 @@ class CommunityDetailsController extends GetxController {
     communityData.value = data['community'];
     isLoading.value = false;
   }
+  // void loadCommunityData() async {
+  //   try {
+  //     final jsonData = await rootBundle.loadString('data/community_list.json');
+  //     final data = json.decode(jsonData);
+  //     final community = data.firstWhere((element) => element['name'] == communityName, orElse: () => null);
+
+  //     if (community != null) {
+  //       communityData.value = community;
+  //     } else {
+  //       Get.snackbar('Error', 'Community not found');
+  //     }
+  //   } catch (e) {
+  //     print('Error loading community data: $e');
+  //   } finally {
+  //     isLoading.value = false;
+  //   }
+  // }
 }

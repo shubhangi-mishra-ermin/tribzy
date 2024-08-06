@@ -15,7 +15,8 @@ class CommunityPage extends StatefulWidget {
 }
 
 class _CommunityPageState extends State<CommunityPage> {
-  final CommunityController _communityController = Get.put(CommunityController());
+  final CommunityController _communityController =
+      Get.put(CommunityController());
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,7 @@ class _CommunityPageState extends State<CommunityPage> {
                 ),
               ),
               SizedBox(height: 8),
-             Obx(() {
+              Obx(() {
                 return ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
@@ -48,6 +49,7 @@ class _CommunityPageState extends State<CommunityPage> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => CommunityDetails(
+                              communityName: community['name'],
                               // communityData: community, // Pass the community data here
                             ),
                           ),
@@ -58,23 +60,25 @@ class _CommunityPageState extends State<CommunityPage> {
                         type: community['type'],
                         category: community['furnishing'],
                         name: community['name'],
-                        address: 'Distance from UF: ${community['distance_from_UF']}',
+                        address:
+                            'Distance from UF: ${community['distance_from_UF']}',
                         imageUrl: community['image_url'],
                       ),
                     );
                   },
                 );
-              }),SizedBox(height: 16),
-              CustomButton(
-                text: 'View more Communities',
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MainScreen(initialIndex: 2)),
-                  );
-                },
-              ),
-              SizedBox(height: 56),
+              }),
+              SizedBox(height: 16),
+              // CustomButton(
+              //   text: 'View more Communities',
+              //   onPressed: () {
+              //     Navigator.push(
+              //       context,
+              //       MaterialPageRoute(builder: (context) => MainScreen(initialIndex: 2)),
+              //     );
+              //   },
+              // ),
+              // SizedBox(height: 56),
             ],
           ),
         ),

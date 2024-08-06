@@ -55,7 +55,7 @@ class AppTextStyle {
   static const TextStyle bold24 = TextStyle(
     fontFamily: 'Poppins',
     fontSize: 24,
-    color: Colors.white,
+    color: blackColor,
     letterSpacing: 1,
     fontWeight: FontWeight.bold,
   );
