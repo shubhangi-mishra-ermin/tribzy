@@ -92,7 +92,7 @@ flutter:
   assets:
     - images/
     - icons/
-    - icons/profilescreen
+    - icons/profilescreen/
     - fonts/
     - data/
     - data/community_list.json

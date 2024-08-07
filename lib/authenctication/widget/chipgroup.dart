@@ -6,11 +6,13 @@ class CustomChipGroup extends StatefulWidget {
   final String label;
   final List<String> options;
   final Function(List<String>) onChanged;
+  final List<String> initialValues; // Add this line
 
   CustomChipGroup({
     required this.label,
     required this.options,
     required this.onChanged,
+    this.initialValues = const [], // Default to empty list if not provided
   });
 
   @override
@@ -24,8 +26,10 @@ class _CustomChipGroupState extends State<CustomChipGroup> {
   @override
   void initState() {
     super.initState();
-    _selectedOptions = List<bool>.generate(widget.options.length, (_) => false);
-    _selectedValues = [];
+    _selectedOptions = List<bool>.generate(widget.options.length, (int index) {
+      return widget.initialValues.contains(widget.options[index]);
+    });
+    _selectedValues = widget.initialValues;
   }
 
   void _updateSelectedValues() {

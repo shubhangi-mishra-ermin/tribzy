@@ -31,6 +31,8 @@ class CompleteProfileController extends GetxController {
   final TextEditingController degreeTypeController = TextEditingController();
   final TextEditingController careerPathController = TextEditingController();
   var gender = ''.obs;
+  var username = ''.obs;
+  var profilePic = ''.obs;
   var personality = ''.obs;
   var interests = <String>[].obs;
   var dietPreference = ''.obs;
@@ -39,7 +41,27 @@ class CompleteProfileController extends GetxController {
   var sleepPattern = ''.obs;
   var smokeOrDrink = ''.obs;
   var travelFrequency = ''.obs;
-
+  Map<String, dynamic> get initialDataStep1 => {
+        'country': countryController.text,
+        'state': stateController.text,
+        'age': ageController.text,
+        'pet_friendly': petFriendly.value,
+        'sleep_pattern': sleepPattern.value,
+        'smoke_or_drink': smokeOrDrink.value,
+      };
+  Map<String, dynamic> get initialDataStep2 => {
+        'gender': gender.value,
+        'personality': personality.value,
+        'interests': interests,
+        'diet_preference': dietPreference.value,
+        'rating_cookingskill': cookingSkillRating.value,
+        'travel': travelFrequency.value,
+      };
+  Map<String, dynamic> get initialDataStep3 => {
+        'major': majorController.text,
+        'career_path': careerPathController.text,
+        'degree_type': degreeTypeController.text,
+      };
   void nextStep() {
     if (currentStep < 3) {
       currentStep++;
@@ -59,7 +81,7 @@ class CompleteProfileController extends GetxController {
       await FirebaseFirestore.instance
           .collection('Users')
           .doc(currentUserCredential)
-          .set({
+          .update({
         'age': ageController.text,
         'career_path': careerPathController.text,
         'country': countryController.text,
@@ -158,6 +180,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                           controller.sleepPattern.value = value,
                       smokeOrDrinkCallback: (value) =>
                           controller.smokeOrDrink.value = value,
+                      initialData: controller.initialDataStep1,
                     );
                   } else if (controller.currentStep.value == 2) {
                     return Step2Content(
@@ -173,12 +196,14 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
                           .cookingSkillRating.value = value.toString(),
                       travelFrequencyCallback: (value) =>
                           controller.travelFrequency.value = value,
+                      initialData: controller.initialDataStep2,
                     );
                   } else {
                     return Step3Content(
                       majorController: controller.majorController,
                       degreeTypeController: controller.degreeTypeController,
                       careerPathController: controller.careerPathController,
+                      initialData: controller.initialDataStep3,
                     );
                   }
                 }),
@@ -266,6 +291,7 @@ class Step1Content extends StatefulWidget {
   final Function(bool) petFriendlyCallback;
   final Function(String) sleepPatternCallback;
   final Function(String) smokeOrDrinkCallback;
+  final Map<String, dynamic> initialData;
 
   const Step1Content({
     required this.countryController,
@@ -275,6 +301,7 @@ class Step1Content extends StatefulWidget {
     required this.petFriendlyCallback,
     required this.sleepPatternCallback,
     required this.smokeOrDrinkCallback,
+    required this.initialData,
   });
 
   @override
@@ -305,36 +332,48 @@ class _Step1ContentState extends State<Step1Content> {
               label: 'Which country are you from?',
               controller: widget.countryController,
               items: ['Select Country', 'India', 'Country 1', 'Country 2'],
+              initialValue: widget.initialData['country'] == ''
+                  ? 'Select Country'
+                  : widget.initialData['country'],
             ),
             SizedBox(height: 20),
             CustomDropdownField(
               label: 'Which state are you from?',
               controller: widget.stateController,
               items: ['Select State', 'Delhi', 'State 1', 'State 2'],
+              initialValue: widget.initialData['state'] == ''
+                  ? 'Select State'
+                  : widget.initialData['state'],
             ),
             SizedBox(height: 20),
             CustomDropdownField(
               label: 'What is your Age',
               controller: widget.ageController,
               items: ['18-24', '24-30', '30+'],
+              initialValue: widget.initialData['age'] == ''
+                  ? '24-30'
+                  : widget.initialData['age'],
             ),
             SizedBox(height: 20),
             CustomRadioGroup(
               label: 'What is your sleep pattern like?',
               options: ['Morning person', 'Night owl', 'No fixed timings'],
               onChanged: widget.sleepPatternCallback,
+              initialValue: widget.initialData['sleep_pattern'],
             ),
             SizedBox(height: 20),
             CustomRadioGroup(
               label: 'How often do you smoke or drink?',
               options: ['Sometimes', 'More often', 'Never'],
               onChanged: widget.smokeOrDrinkCallback,
+              initialValue: widget.initialData['smoke_or_drink'],
             ),
             SizedBox(height: 20),
             CustomRadioGroup(
               label: 'Are you pet-friendly?',
               options: ['Yes', 'No'],
               onChanged: (value) => widget.petFriendlyCallback(value == 'Yes'),
+              initialValue: widget.initialData['pet_friendly'] ? 'Yes' : 'No',
             ),
           ],
         ),
@@ -351,6 +390,7 @@ class Step2Content extends StatefulWidget {
   final Function(String) dietPreferenceCallback;
   final Function(double) cookingSkillRatingCallback;
   final Function(String) travelFrequencyCallback;
+  final Map<String, dynamic> initialData;
 
   const Step2Content({
     this.showHeading = true,
@@ -360,6 +400,7 @@ class Step2Content extends StatefulWidget {
     required this.dietPreferenceCallback,
     required this.cookingSkillRatingCallback,
     required this.travelFrequencyCallback,
+    required this.initialData,
   });
 
   @override
@@ -390,6 +431,7 @@ class _Step2ContentState extends State<Step2Content> {
               label: 'What is your gender?',
               options: ['Male', 'Female', 'Other'],
               onChanged: widget.genderCallback,
+              initialValue: widget.initialData['gender'],
             ),
             SizedBox(height: 20),
             CustomRadioGroup(
@@ -401,6 +443,7 @@ class _Step2ContentState extends State<Step2Content> {
                 'Prefer not to say'
               ],
               onChanged: widget.personalityCallback,
+              initialValue: widget.initialData['personality'],
             ),
             SizedBox(height: 20),
             CustomChipGroup(
@@ -417,17 +460,20 @@ class _Step2ContentState extends State<Step2Content> {
                 'Reading'
               ],
               onChanged: widget.interestsCallback,
+              initialValues: widget.initialData['interests'] ?? [],
             ),
             SizedBox(height: 20),
             CustomRadioGroup(
               label: '10. What is your diet preference?',
               options: ['Vegetarian', 'Non-vegetarian', 'Vegan'],
               onChanged: widget.dietPreferenceCallback,
+              initialValue: widget.initialData['diet_preference'],
             ),
             SizedBox(height: 20),
             CustomSliderGroup(
               label: 'Rate your cooking skills on a scale of 1 to 10.',
-              initialValue: 4,
+              initialValue: _parseCookingSkillRating(
+                  widget.initialData['rating_cookingskill']),
               min: 1,
               max: 10,
               onChanged: widget.cookingSkillRatingCallback,
@@ -437,6 +483,7 @@ class _Step2ContentState extends State<Step2Content> {
               label: '12. How often do you travel?',
               options: ['Sometimes', 'More often', 'Never'],
               onChanged: widget.travelFrequencyCallback,
+              initialValue: widget.initialData['travel'],
             ),
           ],
         ),
@@ -445,17 +492,30 @@ class _Step2ContentState extends State<Step2Content> {
   }
 }
 
+double _parseCookingSkillRating(dynamic value) {
+  if (value == null) return 4.0;
+  if (value is double) return value;
+  if (value is int) return value.toDouble();
+  if (value is String) {
+    final parsed = double.tryParse(value);
+    if (parsed != null) return parsed;
+  }
+  return 4.0;
+}
+
 class Step3Content extends StatefulWidget {
   final bool showHeading;
   final TextEditingController majorController;
   final TextEditingController degreeTypeController;
   final TextEditingController careerPathController;
+  final Map<String, dynamic> initialData;
 
   const Step3Content({
     this.showHeading = true,
     required this.majorController,
     required this.degreeTypeController,
     required this.careerPathController,
+    required this.initialData,
   });
 
   @override
@@ -493,12 +553,18 @@ class _Step3ContentState extends State<Step3Content> {
                 'Chemical',
                 'Others'
               ],
+              initialValue: widget.initialData['major'] == ''
+                  ? 'Select Major'
+                  : widget.initialData['major'],
             ),
             SizedBox(height: 20),
             CustomDropdownField(
               label: '14. What is your degree type?',
               controller: widget.degreeTypeController,
               items: ['Select degree type', 'UG', 'Masters', 'PhD', 'Others'],
+              initialValue: widget.initialData['degree_type'] == ''
+                  ? 'Select degree type'
+                  : widget.initialData['degree_type'],
             ),
             SizedBox(height: 20),
             CustomDropdownField(
@@ -510,6 +576,9 @@ class _Step3ContentState extends State<Step3Content> {
                 'Electronics and Communication: VLSI, Circuit Design, Networking',
                 'Other Domains: Add relevant options as needed'
               ],
+              initialValue: widget.initialData['career_path'] == ''
+                  ? 'Select career domain'
+                  : widget.initialData['career_path'],
             ),
           ],
         ),

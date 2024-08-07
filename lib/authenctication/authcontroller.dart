@@ -50,8 +50,7 @@ class AuthController extends GetxController {
           "FirebaseAuth.instance.currentUse :: ${FirebaseAuth.instance.currentUser?.uid ?? ""}");
 
       String userId = FirebaseAuth.instance.currentUser?.uid ?? "";
-// final user = FirebaseAuth.instance.currentUser!;
-// String currentUserCredential = user.uid;
+
       await firestore.collection('Users').doc(userId).set({
         'email': email,
         'password': password,

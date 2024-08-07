@@ -8,6 +8,7 @@ import 'package:tribzyco/globalvariables.dart';
 import 'package:tribzyco/screens/community/communitycontroller.dart';
 import 'package:tribzyco/screens/community/communitydetails.dart';
 import 'package:tribzyco/screens/community/community.dart';
+import 'package:tribzyco/screens/navigationpage.dart';
 import 'package:tribzyco/utilities/colors.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -109,7 +110,11 @@ class HomeScreen extends StatelessWidget {
                   CustomButton(
                     text: 'View more Communities',
                     onPressed: () {
-                      nextPage(context, CommunityPage());
+                      nextPage(
+                          context,
+                          MainScreen(
+                            initialIndex: 1,
+                          ));
                     },
                   ),
                   // SizedBox(height: 56),

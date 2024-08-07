@@ -6,11 +6,13 @@ class CustomRadioGroup extends StatefulWidget {
   final String label;
   final List<String> options;
   final Function(String) onChanged;
+  final String initialValue;
 
   const CustomRadioGroup({
     required this.label,
     required this.options,
     required this.onChanged,
+     this.initialValue = '',
   });
 
   @override
@@ -23,8 +25,7 @@ class _CustomRadioGroupState extends State<CustomRadioGroup> {
   @override
   void initState() {
     super.initState();
-    // Initialize the selected value with the first option or any other default value
-    _selectedValue = widget.options.first;
+    _selectedValue = widget.initialValue;
   }
 
   @override

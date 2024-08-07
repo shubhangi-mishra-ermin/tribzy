@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:tribzyco/globalvariables.dart';
+import 'package:tribzyco/screens/navigationpage.dart';
 import 'package:tribzyco/utilities/colors.dart';
 import 'package:tribzyco/utilities/textstyles.dart';
 
@@ -66,7 +68,12 @@ class _CommunityCardState extends State<CommunityCard> {
                     if (widget.type != '') SizedBox(height: 8),
                     widget.rating == 0.0
                         ? TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              // MainScreen(
+                              //   initialIndex: 1,
+                              // );
+                              // nextPage(context, page)
+                            },
                             child: Text(
                               'Learn More',
                               style: TextStyle(

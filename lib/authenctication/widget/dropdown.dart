@@ -7,12 +7,14 @@ class CustomDropdownField extends StatefulWidget {
   final String label;
   final TextEditingController controller;
   final List<String> items;
+  final String initialValue;
 
   CustomDropdownField({
     this.withoutLabel = false,
     required this.label,
     required this.controller,
     required this.items,
+     this.initialValue = '',
   });
 
   @override
@@ -25,7 +27,8 @@ class _CustomDropdownFieldState extends State<CustomDropdownField> {
   @override
   void initState() {
     super.initState();
-    _selectedItem = widget.items.first;
+    _selectedItem = widget.initialValue;
+    widget.controller.text = widget.initialValue;
   }
 
   @override
