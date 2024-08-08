@@ -155,6 +155,11 @@ class _ManageProfileState extends State<ManageProfile> {
       print('Error updating user data: $e');
       showErrorMessage(context, 'Failed to update user data');
     } finally {
+      nextPage(
+          context,
+          MainScreen(
+            initialIndex: 3,
+          ));
       setState(() {
         _isLoading = false;
       });
@@ -276,11 +281,6 @@ class _ManageProfileState extends State<ManageProfile> {
             onPressed: () async {
               await _uploadImageToFirebase();
               await _updateUserData();
-              nextPage(
-                  context,
-                  MainScreen(
-                    initialIndex: 3,
-                  ));
             },
           ),
         ),

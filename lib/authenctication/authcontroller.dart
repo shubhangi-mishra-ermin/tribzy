@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:tribzyco/authenctication/completeprofile/completeprofile.dart';
+import 'package:tribzyco/authenctication/completeprofile/completeprofile2.dart';
 import 'package:tribzyco/authenctication/signup.dart';
 import 'package:tribzyco/main.dart';
 import 'package:tribzyco/screens/navigationpage.dart';
@@ -40,42 +41,68 @@ class AuthController extends GetxController {
     try {
       isLoading.value = true;
       UserCredential userCredential =
-          await _auth.createUserWithEmailAndPassword(
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-      print("userCredential :: $userCredential");
-      print("currentUserCredential :: $currentUserCredential");
-      print(
-          "FirebaseAuth.instance.currentUse :: ${FirebaseAuth.instance.currentUser?.uid ?? ""}");
+      String userId = userCredential.user?.uid ?? "";
 
-      String userId = FirebaseAuth.instance.currentUser?.uid ?? "";
+      bool? isInSanFrancisco = prefs!.getBool('isInSanFrancisco');
+      // bool? isInSanFrancisco = prefs!.getBool('isInSanFrancisco');
+      print("isInSanFrancisco :: $isInSanFrancisco");
+      Map<String, dynamic> userData;
 
-      await firestore.collection('Users').doc(userId).set({
-        'email': email,
-        'password': password,
-        'username': username,
-        'profile_complete': false,
-        'profile_pic': '',
-        'dob': '',
-        'age': '',
-        'career_path': '',
-        'country': '',
-        'degree_type': '',
-        'diet_preference': '',
-        'gender': '',
-        'interests': [],
-        'major': '',
-        'personality': '',
-        'pet_friendly': true,
-        'rating_cookingskill': '',
-        'sleep_pattern': '',
-        'smoke_or_drink': '',
-        'state': '',
-        'travel': '',
-      });
+      if (isInSanFrancisco != null && isInSanFrancisco) {
+        userData = {
+          'email': email,
+          'password': password,
+          'username': username,
+          'name': '',
+          'profile_complete': false,
+          'profile_pic': '',
+          'country': '',
+          'linkedinUrl': '',
+          'gender': '',
+          'interests': [],
+          'personality': '',
+          'state': '',
+          'travel': '',
+          'idea_name': '',
+          'idea_in_oneline': '',
+          'website_url': '',
+          'domainIdea': '',
+          'workingOn': '',
+          'connectWIth': '',
+        };
+        Get.off(() => CompleteProfileScreen2(userId: userId));
+      } else {
+        userData = {
+          'email': email,
+          'password': password,
+          'username': username,
+          'profile_complete': false,
+          'profile_pic': '',
+          'dob': '',
+          'age': '',
+          'career_path': '',
+          'country': '',
+          'degree_type': '',
+          'diet_preference': '',
+          'gender': '',
+          'interests': [],
+          'major': '',
+          'personality': '',
+          'pet_friendly': true,
+          'rating_cookingskill': '',
+          'sleep_pattern': '',
+          'smoke_or_drink': '',
+          'state': '',
+          'travel': '',
+        };
+        Get.off(() => CompleteProfileScreen(userId: userId));
+      }
 
-      Get.off(() => CompleteProfileScreen(userId: userId));
+      await firestore.collection('Users').doc(userId).set(userData);
     } catch (e) {
       Get.snackbar('Error', e.toString());
     } finally {

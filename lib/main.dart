@@ -2,16 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tribzyco/Widget/splashScreen.dart';
 import 'package:tribzyco/authenctication/completeprofile/completeprofile.dart';
-import 'package:tribzyco/authenctication/loginpage.dart';
-import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:location/location.dart' as loc;
+import 'package:tribzyco/firebase_options.dart';
 
 SharedPreferences? prefs;
 final user = FirebaseAuth.instance.currentUser!;
 String currentUserCredential = user.uid;
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,16 +24,13 @@ Future<void> main() async {
     webProvider:
         ReCaptchaV3Provider('6LdLDgcqAAAAAJFvrI0kr62O4916hbnJGPJ91kUF'),
     androidProvider: AndroidProvider.playIntegrity,
-    // appleProvider: AppleProvider.appAttest,
   );
-  // await signOutUser();
+
+  prefs = await SharedPreferences.getInstance();
+  // user = FirebaseAuth.instance.currentUser;
 
   runApp(const MyApp());
 }
-
-// Future<void> signOutUser() async {
-//   await FirebaseAuth.instance.signOut();
-// }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -39,12 +38,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Tribzy',
-        // home: CompleteProfileScreen(
-        //   userId: '',
-        // )
-        home: SplashScreen(),
-        );
+      debugShowCheckedModeBanner: false,
+      title: 'Tribzy',
+      home: SplashScreen(),
+    );
   }
 }
