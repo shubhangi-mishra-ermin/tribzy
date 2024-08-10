@@ -34,10 +34,8 @@ class TextFeildStyle extends StatefulWidget {
   final String? suffixText;
   final int? maxLength;
   final inputFormatters;
-  // final String? Function(dynamic value)? validation;
   final validation;
   final String? validationText;
-
   final int? length;
   final Function(String)? onChanged;
   final Decoration? decoration;
@@ -94,6 +92,7 @@ class TextFeildStyle extends StatefulWidget {
 class _TextFeildStyleState extends State<TextFeildStyle> {
   bool isFocused = false;
   final FocusNode _focusNode = FocusNode();
+
   @override
   void initState() {
     super.initState();
@@ -102,7 +101,10 @@ class _TextFeildStyleState extends State<TextFeildStyle> {
         isFocused = _focusNode.hasFocus;
       });
     });
-    isFocused = _focusNode.hasFocus;
+
+    if (widget.controller != null && widget.initialValue != null) {
+      widget.controller!.text = widget.initialValue!;
+    }
   }
 
   @override
@@ -111,42 +113,21 @@ class _TextFeildStyleState extends State<TextFeildStyle> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          // width: double.infinity,
-          // padding: EdgeInsets.symmetric(vertical: 10),
           decoration: ShapeDecoration(
             color: Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
-            // shadows: [
-            //   if (isFocused)
-            //     BoxShadow(
-            //       color: Color(0xffDCECF1),
-            //       blurRadius: 0,
-            //       offset: Offset(0, 0),
-            //       spreadRadius: 3,
-            //     ),
-            // ],
           ),
           child: TextFormField(
-            // validator: (value) {
-            //   // Add your validation logic here
-            //   if (widget.validation != null) {
-            //     return '${widget.validation}';
-            //   }
-            //   return null;
-            // },
             focusNode: _focusNode,
             obscuringCharacter: '●',
-
             onChanged: widget.onChanged,
             maxLength: widget.maxLength,
-            initialValue: widget.initialValue,
             keyboardType: widget.keyboardType,
             style: AppTextStyle.medium14.copyWith(color: blackColor),
             onTap: widget.ontap,
-            readOnly: false,
-            // minLines: widget.maxLines??1,
+            readOnly: widget.readOnly ?? false,
             validator: widget.validation,
             maxLines: widget.maxLines ?? 1,
             enabled: widget.enabled,
@@ -179,13 +160,10 @@ class _TextFeildStyleState extends State<TextFeildStyle> {
               icon: widget.icon,
               fillColor: widget.fillColor,
               filled: widget.filled,
-
-              // enabledBorder: widget.enabledBorder,
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(
                     color: lightGreyColor), // Customize the border color
-                borderRadius:
-                    BorderRadius.circular(12), // Set the border radius
+                borderRadius: BorderRadius.circular(12), // Set the border radius
               ),
               hintText: widget.hintText,
               hintTextDirection: widget.hintTextDirection,
@@ -199,16 +177,6 @@ class _TextFeildStyleState extends State<TextFeildStyle> {
             ),
           ),
         ),
-        // (widget.validation != null)
-        //     ? Padding(
-        //         padding: const EdgeInsets.only(left: 14.0),
-        //         child: Text(
-        //           widget.validation!(widget.controller
-        //               ?.text)!, // Display the validation error message
-        //           style: TextStyle(color: Colors.red, fontSize: 12),
-        //         ),
-        //       )
-        //     : SizedBox(),
       ],
     );
   }

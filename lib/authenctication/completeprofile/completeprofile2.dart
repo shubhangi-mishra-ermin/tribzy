@@ -50,10 +50,34 @@ class CompleteProfileController2 extends GetxController {
   var dietPreference = ''.obs;
   var petFriendly = true.obs;
   var cookingSkillRating = ''.obs;
+  var profilePic = ''.obs;
+  var username = ''.obs;
   var sleepPattern = ''.obs;
   var smokeOrDrink = ''.obs;
   var travelFrequency = ''.obs;
   bool completeProfile = false;
+  Map<String, dynamic> get initialDataStep12 => {
+        'country': countryController.text,
+        'state': stateController.text,
+        'name': nameController.text,
+        'linkedinUrl': linkedinUrlController.text,
+      };
+  Map<String, dynamic> get initialDataStep22 => {
+        'gender': gender.value,
+        'personality': personality.value,
+        'interests': interests,
+        // 'diet_preference': dietPreference.value,
+        // 'rating_cookingskill': cookingSkillRating.value,
+        // 'travel': travelFrequency.value,
+      };
+  Map<String, dynamic> get initialDataStep32 => {
+        'idea_name': ideanameController.text,
+        'idea_in_oneline': onelinerController.text,
+        'website_url': webUrlController.text,
+        'domainIdea': domainIdeaController.text,
+        'workingOn': workingOnController.text,
+        'connectWIth': connectWithController.text,
+      };
   void nextStep() {
     if (currentStep < 3) {
       currentStep++;
@@ -139,7 +163,8 @@ class _CompleteProfileScreen2State extends State<CompleteProfileScreen2> {
               child: SingleChildScrollView(
                 child: Obx(() {
                   if (controller.currentStep.value == 1) {
-                    return Step1Content(
+                    return Step1Content2(
+                      initialData: controller.initialDataStep12,
                       userId: widget.userId,
                       countryController: controller.countryController,
                       stateController: controller.stateController,
@@ -153,7 +178,8 @@ class _CompleteProfileScreen2State extends State<CompleteProfileScreen2> {
                       //     controller.smokeOrDrink.value = value,
                     );
                   } else if (controller.currentStep.value == 2) {
-                    return Step2Content(
+                    return Step2Content2(
+                      initialData: controller.initialDataStep22,
                       genderCallback: (value) =>
                           controller.gender.value = value,
                       personalityCallback: (value) =>
@@ -168,7 +194,8 @@ class _CompleteProfileScreen2State extends State<CompleteProfileScreen2> {
                           controller.travelFrequency.value = value,
                     );
                   } else {
-                    return Step3Content(
+                    return Step3Content2(
+                      initialData: controller.initialDataStep32,
                       ideaName: controller.ideanameController,
                       onliner: controller.onelinerController,
                       weburl: controller.webUrlController,
@@ -254,26 +281,30 @@ class StepperIndicator extends StatelessWidget {
   }
 }
 
-class Step1Content extends StatefulWidget {
+class Step1Content2 extends StatefulWidget {
   final TextEditingController countryController;
   final TextEditingController stateController;
   final TextEditingController nameController;
   final TextEditingController linkedinUrl;
   final String userId;
+  final bool showHeading;
+  final Map<String, dynamic> initialData;
 
-  const Step1Content({
+  const Step1Content2({
     required this.countryController,
     required this.stateController,
     required this.nameController,
     required this.linkedinUrl,
     required this.userId,
+    this.showHeading = true,
+    required this.initialData,
   });
 
   @override
-  _Step1ContentState createState() => _Step1ContentState();
+  _Step1Content2State createState() => _Step1Content2State();
 }
 
-class _Step1ContentState extends State<Step1Content> {
+class _Step1Content2State extends State<Step1Content2> {
   String _fileName = '';
   Uint8List? filePath;
   bool _isAdding = false;
@@ -371,6 +402,10 @@ class _Step1ContentState extends State<Step1Content> {
                       textAlignVertical: TextAlignVertical.center,
                       controller: widget.nameController,
                       onChanged: (value) {},
+                      initialValue: widget.initialData['name'] == null ||
+                              widget.initialData['name'] == ''
+                          ? 'Enter Name'
+                          : widget.initialData['name'],
                     ),
                     SizedBox(height: 20),
                     Text('2. Upload your Profile picture',
@@ -447,22 +482,26 @@ class _Step1ContentState extends State<Step1Content> {
                           ),
                     SizedBox(height: 20),
                     CustomDropdownField(
-                      label: '3. Which country are you from?',
-                      controller: widget.countryController,
-                      items: [
-                        'Select Country',
-                        'India',
-                        'Country 1',
-                        'Country 2'
-                      ],
-                      initialValue: 'Select Country',
-                    ),
+                        label: '3. Which country are you from?',
+                        controller: widget.countryController,
+                        items: [
+                          'Select Country',
+                          'India',
+                          'Country 1',
+                          'Country 2'
+                        ],
+                        initialValue: widget.initialData['country'] == ''
+                            ? 'Select Country'
+                            : widget.initialData['country']),
                     SizedBox(height: 20),
                     CustomDropdownField(
                       label: '4. Which state are you from?',
                       controller: widget.stateController,
                       items: ['Select State', 'Delhi', 'State 1', 'State 2'],
-                      initialValue: 'Select State',
+                      initialValue: widget.initialData['state'] == null ||
+                              widget.initialData['state'] == ''
+                          ? 'Select State'
+                          : widget.initialData['state'],
                     ),
                     SizedBox(height: 20),
                     Text('12. Linkedin url', style: AppTextStyle.semibold16),
@@ -474,6 +513,10 @@ class _Step1ContentState extends State<Step1Content> {
                       textAlignVertical: TextAlignVertical.center,
                       controller: widget.linkedinUrl,
                       onChanged: (value) {},
+                      initialValue: widget.initialData['linkedinUrl'] == null ||
+                              widget.initialData['linkedinUrl'] == ''
+                          ? 'Enter LinkedIn URL'
+                          : widget.initialData['linkedinUrl'],
                     ),
                   ],
                 ),
@@ -483,28 +526,31 @@ class _Step1ContentState extends State<Step1Content> {
   }
 }
 
-class Step2Content extends StatefulWidget {
+class Step2Content2 extends StatefulWidget {
   final Function(String) genderCallback;
   final Function(String) personalityCallback;
   final Function(List<String>) interestsCallback;
   final Function(String) dietPreferenceCallback;
   final Function(double) cookingSkillRatingCallback;
   final Function(String) travelFrequencyCallback;
-
-  const Step2Content({
+  final bool showHeading;
+  final Map<String, dynamic> initialData;
+  const Step2Content2({
     required this.genderCallback,
     required this.personalityCallback,
     required this.interestsCallback,
     required this.dietPreferenceCallback,
     required this.cookingSkillRatingCallback,
     required this.travelFrequencyCallback,
+    this.showHeading = true,
+    required this.initialData,
   });
 
   @override
-  _Step2ContentState createState() => _Step2ContentState();
+  _Step2Content2State createState() => _Step2Content2State();
 }
 
-class _Step2ContentState extends State<Step2Content> {
+class _Step2Content2State extends State<Step2Content2> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -527,10 +573,18 @@ class _Step2ContentState extends State<Step2Content> {
               label: '6. What is your gender?',
               options: ['Male', 'Female', 'Other'],
               onChanged: widget.genderCallback,
+              initialValue: widget.initialData['gender'] == null ||
+                      widget.initialData['gender'] == ''
+                  ? 'Select Gender'
+                  : widget.initialData['gender'],
             ),
             SizedBox(height: 20),
             CustomRadioGroup(
               label: '7. What is your personality like?',
+              initialValue: widget.initialData['personality'] == null ||
+                      widget.initialData['personality'] == ''
+                  ? 'Select Personality'
+                  : widget.initialData['personality'],
               options: [
                 'Extroverted',
                 'Introverted',
@@ -543,6 +597,9 @@ class _Step2ContentState extends State<Step2Content> {
             SizedBox(height: 20),
             CustomChipGroup(
               label: '8. What are your hobbies and interests?',
+              initialValues: widget.initialData['interests'] == null
+                  ? []
+                  : List<String>.from(widget.initialData['interests']),
               options: [
                 'Movies',
                 'NBA',
@@ -583,28 +640,31 @@ class _Step2ContentState extends State<Step2Content> {
   }
 }
 
-class Step3Content extends StatefulWidget {
+class Step3Content2 extends StatefulWidget {
   final TextEditingController ideaName;
   final TextEditingController onliner;
   final TextEditingController weburl;
   final TextEditingController domainIdea;
   final TextEditingController workingOn;
   final TextEditingController connectWIth;
-
-  const Step3Content({
+  final bool showHeading;
+  final Map<String, dynamic> initialData;
+  const Step3Content2({
     required this.ideaName,
     required this.onliner,
     required this.weburl,
     required this.domainIdea,
     required this.workingOn,
     required this.connectWIth,
+    this.showHeading = true,
+    required this.initialData,
   });
 
   @override
-  _Step3ContentState createState() => _Step3ContentState();
+  _Step3Content2State createState() => _Step3Content2State();
 }
 
-class _Step3ContentState extends State<Step3Content> {
+class _Step3Content2State extends State<Step3Content2> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -633,11 +693,19 @@ class _Step3ContentState extends State<Step3Content> {
               textAlignVertical: TextAlignVertical.center,
               controller: widget.ideaName,
               onChanged: (value) {},
+              initialValue: widget.initialData['idea_name'] == null ||
+                      widget.initialData['idea_name'] == ''
+                  ? 'Enter Idea Name'
+                  : widget.initialData['idea_name'],
             ),
             SizedBox(height: 20),
             Text('11. Describe it in one line', style: AppTextStyle.semibold16),
             SizedBox(height: 8),
             TextFeildStyle(
+              initialValue: widget.initialData['idea_in_oneline'] == null ||
+                      widget.initialData['idea_in_oneline'] == ''
+                  ? 'Enter One Liner'
+                  : widget.initialData['idea_in_oneline'],
               hintText: '',
               fillColor: Color(0xffFAFBFB),
               validation: FormValidators.validateFirstName,
@@ -649,6 +717,10 @@ class _Step3ContentState extends State<Step3Content> {
             Text('12. Website url', style: AppTextStyle.semibold16),
             SizedBox(height: 8),
             TextFeildStyle(
+              initialValue: widget.initialData['website_url'] == null ||
+                      widget.initialData['website_url'] == ''
+                  ? 'Enter Website URL'
+                  : widget.initialData['website_url'],
               hintText: '',
               fillColor: Color(0xffFAFBFB),
               validation: FormValidators.validateFirstName,
@@ -658,6 +730,10 @@ class _Step3ContentState extends State<Step3Content> {
             ),
             SizedBox(height: 20),
             CustomDropdownField(
+              initialValue: widget.initialData['domainIdea'] == null ||
+                      widget.initialData['domainIdea'] == ''
+                  ? 'Select career domain'
+                  : widget.initialData['domainIdea'],
               label: '13. What domain is your idea in?',
               controller: widget.domainIdea,
               items: [
@@ -678,7 +754,7 @@ class _Step3ContentState extends State<Step3Content> {
                 '⌚ Wearable Technology',
                 '❤️ Non-Profit and Social Impact'
               ],
-              initialValue: 'Select career domain',
+              // initialValue: 'Select career domain',
             ),
             SizedBox(height: 20),
             CustomDropdownField(
@@ -694,7 +770,10 @@ class _Step3ContentState extends State<Step3Content> {
                 '🎮 Creating a game or immersive experience',
                 'Other'
               ],
-              initialValue: 'Select career domain',
+              initialValue: widget.initialData['workingOn'] == null ||
+                      widget.initialData['workingOn'] == ''
+                  ? 'Select career domain'
+                  : widget.initialData['workingOn'],
             ),
             SizedBox(height: 20),
             CustomDropdownField(
@@ -714,7 +793,10 @@ class _Step3ContentState extends State<Step3Content> {
                 '💬 Those ready to give feedback and insights',
                 'Other'
               ],
-              initialValue: 'Select career domain',
+              initialValue: widget.initialData['connectWIth'] == null ||
+                      widget.initialData['connectWIth'] == ''
+                  ? 'Select career domain'
+                  : widget.initialData['connectWIth'],
             ),
           ],
         ),

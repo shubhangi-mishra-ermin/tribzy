@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tribzyco/navigationPage2.dart';
+import 'package:tribzyco/screens/navigationPage2.dart';
 import 'package:tribzyco/screens/navigationpage.dart';
 import 'package:tribzyco/screens/onboardingScreens/OnBoarding.dart'; 
 import 'package:tribzyco/utilities/colors.dart';

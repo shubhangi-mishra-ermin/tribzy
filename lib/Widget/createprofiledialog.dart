@@ -11,7 +11,7 @@ class CreateProfileDialog extends StatefulWidget {
   final String description;
   final String imagePath;
   final String buttonText;
-  final VoidCallback onPressed; // Add onPressed parameter
+  final VoidCallback onPressed; 
 
   const CreateProfileDialog({
     Key? key,
@@ -19,7 +19,7 @@ class CreateProfileDialog extends StatefulWidget {
     required this.description,
     required this.imagePath,
     required this.buttonText,
-    required this.onPressed, // Initialize onPressed in constructor
+    required this.onPressed, 
   }) : super(key: key);
 
   @override
@@ -52,7 +52,7 @@ class _CreateProfileDialogState extends State<CreateProfileDialog> {
             text: widget.buttonText,
             onPressed: () {
               Navigator.of(context).pop();
-              widget.onPressed(); // Use the passed onPressed function
+              widget.onPressed(); 
             },
           )
         ],

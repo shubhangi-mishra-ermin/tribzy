@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tribzyco/screens/community/community.dart';
 import 'package:tribzyco/screens/event/event.dart';
 import 'package:tribzyco/screens/home/homapage.dart';
+import 'package:tribzyco/screens/homies/homiespage.dart';
 import 'package:tribzyco/screens/profile/profile.dart';
 import 'package:tribzyco/utilities/colors.dart';
 
@@ -27,6 +28,7 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _screens = [
     HomeScreen(),
     const CommunityPage(),
+    HomiesPage(),
     const EventPage(),
     const ProfilePage(),
   ];
@@ -64,6 +66,16 @@ class _MainScreenState extends State<MainScreen> {
             inactiveIconPath: 'icons/comm_icon.svg',
             title: 'Community',
           ),
+          _buildNavItem(
+            activeIconPath: 'icons/homies_filled.svg',
+            inactiveIconPath: 'icons/homies_icon.svg',
+            title: 'Homies',
+          ),
+          /* BottomNavigationBarItem(
+            icon: SvgPicture.asset('icons/homies_icon.svg'),
+            activeIcon: SvgPicture.asset('icons/homies_filled.svg'),
+            label: "Homies",
+          ),*/
           _buildNavItem(
             activeIconPath: 'icons/event_filled.svg',
             inactiveIconPath: 'icons/eventicon.svg',
