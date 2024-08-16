@@ -66,7 +66,7 @@ class _EventPageState extends State<EventPage> {
                             category: 'Tribzy x BLVD Move-In Day Pool Party',
                             name: 'Fri, Aug 16 | 7:00 PM EDT',
                             address: 'BLVD Gainesville, Florida',
-                            imageUrl: 'https://www.swamprentals.com/uploads/images/IMG_4254.jpg', dateTime: '',
+                            imageUrl: https://www.blvdgnv.com/wp-content/uploads/2022/08/BLVD_Amenities_0000_BLVD_Hero_PoolandTrees-768x512.jpg', dateTime: '',
                           ),
                         );
                       },
