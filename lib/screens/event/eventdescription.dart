@@ -63,9 +63,11 @@ class _EventDescriptionScreenState extends State<EventDescriptionScreen> {
                     ),
                   ),
                   SizedBox(width: 12),
-                  Text('Sun, July 14 | 10:00 AM EDT',
-                      style: AppTextStyle.semibold14
-                          .copyWith(color: primaryColor)),
+                  Expanded(
+                    child: Text('Friday, August 16 7:00 PM - 9:00 PM EDT',
+                        style: AppTextStyle.semibold14
+                            .copyWith(color: primaryColor)),
+                  ),
                 ],
               ),
             ),
@@ -130,7 +132,7 @@ class _EventDescriptionScreenState extends State<EventDescriptionScreen> {
                     ),
                   ),
                   SizedBox(width: 12),
-                  Text('Sammy',
+                  Text('Shashank',
                       style: AppTextStyle.semibold14
                           .copyWith(color: primaryColor)),
                 ],
@@ -156,7 +158,33 @@ class _EventDescriptionScreenState extends State<EventDescriptionScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                          'Hey everyone! I’m hosting a swimming pool party at my place, and I’d love for you to join in on the fun! We’ll be diving into a day full of sun, laughter, and good times by the pool. Expect refreshing swims, exciting water games, and a variety of delicious snacks and drinks. Whether you want to lounge poolside or get active with some fun pool activities, there’s something for everyone. Don’t forget to bring your swimsuit and your best party spirit.',
+                          '''I'm thrilled to announce the upcoming launch event for Tribzy, my AI-powered roommate matching platform. To make this event even more exciting, I’m bringing my other innovative ventures as co-sponsors:
+
+​Rydify: Discover how we're revolutionizing communal ride-sharing.
+
+​Synq space: Experience seamless cross-platform contact sharing.
+
+​Join us for an exciting pool party hosted by Tribzy to celebrate the move-in day at BLVD Apartments! This event is designed to help new residents connect and get to know each other while having fun in the sun.
+
+​What's in Store:
+
+​Engaging Activities: Icebreakers, pool games, and team activities.
+
+​Special Offers: Exclusive deals for BLVD residents who sign up for Tribzy.
+
+​Exciting Giveaways: Prizes and surprises for attendees.
+
+​Refreshments: Complimentary snacks and drinks to keep you refreshed.
+
+​Why Attend:
+
+​Meet your new neighbors and make new friends.
+
+​Discover how Tribzy can enhance your living experience by helping you find compatible roommates and join vibrant communities.
+
+​Learn about Rydify, Gnapika and Synq Space, and how these ventures can benefit you.
+
+​Enjoy a fun-filled evening with great company and lots of entertainment. ''',
                           style: AppTextStyle.semibold14),
                     ),
                   ),

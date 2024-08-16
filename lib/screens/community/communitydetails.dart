@@ -20,7 +20,8 @@ class CommunityDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CommunityDetailsController controller = Get.put(CommunityDetailsController(communityName: communityName));
+    final CommunityDetailsController controller =
+        Get.put(CommunityDetailsController(communityName: communityName));
 
     final Map<String, String> amenityIconMapping = {
       'bedroom': 'icons/bedroom.svg',
@@ -171,7 +172,7 @@ class CommunityDetails extends StatelessWidget {
                             .map<Widget>((floorPlan) => FloorPlanCard(
                                   price: floorPlan['price'] ?? 'NA',
                                   details: floorPlan['type'] ?? 'NA',
-                                  imagePath: 'images/floorplan.svg',
+                                  imagePath: 'images/card1.png',
                                 ))
                             .toList(),
                       ),
@@ -338,7 +339,7 @@ class FloorPlanCard extends StatelessWidget {
                 topLeft: Radius.circular(12),
                 topRight: Radius.circular(12),
               ),
-              child: SvgPicture.asset(imagePath,
+              child: Image.asset(imagePath,
                   height: 120, width: 200, fit: BoxFit.cover),
             ),
             Padding(
@@ -390,7 +391,8 @@ class CommunityDetailsController extends GetxController {
     super.onInit();
     loadCommunityData();
   }
- Future<void> loadCommunityData() async {
+
+  Future<void> loadCommunityData() async {
     final String response =
         await rootBundle.loadString('data/community_info.json');
     final data = json.decode(response);

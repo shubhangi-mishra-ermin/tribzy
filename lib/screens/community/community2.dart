@@ -50,37 +50,51 @@ class _CommunityPage2State extends State<CommunityPage2> {
                     final community = _communityController.communityList[index];
                     return GestureDetector(
                       onTap: () {
-                        if (FirebaseAuth.instance.currentUser?.uid != null) {
-                          showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return CreateProfileDialog(
-                                onPressed: () {
-                                  // Navigator.of(context).pop();
-                                  // nextPage(context, LoginPage());
-                                },
-                                title: 'Welcome to Chapter SF',
-                                description:
-                                    'To switch communities, go to Settings in the Profile section. Enjoy connecting with your new tribe!',
-                                imagePath: 'icons/welcomedialog.svg',
-                                buttonText: 'Continue',
-                              );
-                            },
-                          );
+                        if (index == 0) {
+                          // Only for the first CommunityCard
+                          if (FirebaseAuth.instance.currentUser?.uid != null) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CommunityDetails(
+                                  communityName: community['name'],
+                                  // communityData: community, // Pass the community data here if needed
+                                ),
+                              ),
+                            );
+                          } else {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return CreateProfileDialog(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                    nextPage(context, LoginPage());
+                                  },
+                                  title: 'Create Profile',
+                                  description:
+                                      'Create your profile to join the community, find compatible roommates, and enjoy the best experience.',
+                                  imagePath: 'icons/createprofile.svg',
+                                  buttonText: 'Continue',
+                                );
+                              },
+                            );
+                          }
                         } else {
+                          // Optionally, show a dialog or perform another action for non-first items
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
                               return CreateProfileDialog(
                                 onPressed: () {
                                   Navigator.of(context).pop();
-                                  nextPage(context, LoginPage());
+                                  // Optionally navigate to a different page or take other actions
                                 },
-                                title: 'Create Profile',
+                                title: 'Access Restricted',
                                 description:
-                                    'Create your profile to join the community, find compatible roommates, and enjoy the best experience.',
-                                imagePath: 'icons/createprofile.svg',
-                                buttonText: 'Continue',
+                                    'You can only view the details for the first community card.',
+                                imagePath: 'icons/restricted.svg',
+                                buttonText: 'OK',
                               );
                             },
                           );
@@ -92,7 +106,7 @@ class _CommunityPage2State extends State<CommunityPage2> {
                         address:
                             '${community['distance_from_venue']} from venue',
                         imageUrl: community['image_url'],
-                        type: ' jfs',
+                        type: 'jfs',
                         // distanceFromVenue: community['distance_from_venue'],
                       ),
                     );

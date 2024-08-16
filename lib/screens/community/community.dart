@@ -59,15 +59,45 @@ class _CommunityPageState extends State<CommunityPage> {
                               _communityController.communityList[index];
                           return GestureDetector(
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => CommunityDetails(
-                                    communityName: community['name'],
-                                    // communityData: community, // Pass the community data here
+                              if (index == 0) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CommunityDetails(
+                                      communityName: community['name'],
+                                      // communityData: community, // Pass the community data here
+                                    ),
                                   ),
-                                ),
-                              );
+                                );
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Scaffold(
+                                            body: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 16.0,
+                                                        vertical: 120),
+                                                child: Center(
+                                                  child: Text(
+                                                    'Coming Soon...',
+                                                    style: TextStyle(
+                                                      fontSize: 28,
+                                                      fontFamily: 'Poppins',
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                )),
+                                          )
+                                      //  CommunityDetails(
+                                      //   communityName: community['name'],
+                                      //   // communityData: community, // Pass the community data here
+                                      // ),
+                                      ),
+                                );
+                              }
                             },
                             child: CommunityCard(
                               rating: community['rating'],

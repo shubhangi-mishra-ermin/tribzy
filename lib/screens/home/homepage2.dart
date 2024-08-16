@@ -89,42 +89,47 @@ class HomeScreen2 extends StatelessWidget {
                             _communityController.communityList[index];
                         return GestureDetector(
                           onTap: () {
-                            if (FirebaseAuth.instance.currentUser?.uid !=
-                                null) {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return CreateProfileDialog(
-                                    onPressed: () {
-                                      // Navigator.of(context).pop();
-                                      // nextPage(context, LoginPage());
-                                    },
-                                    title: 'Welcome to Chapter SF',
-                                    description:
-                                        'To switch communities, go to Settings in the Profile section. Enjoy connecting with your new tribe!',
-                                    imagePath: 'icons/welcomedialog.svg',
-                                    buttonText: 'Continue',
-                                  );
-                                },
-                              );
-                            } else {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return CreateProfileDialog(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                      nextPage(context, LoginPage());
-                                    },
-                                    title: 'Create Profile',
-                                    description:
-                                        'Create your profile to join the community, find compatible roommates, and enjoy the best experience.',
-                                    imagePath: 'icons/createprofile.svg',
-                                    buttonText: 'Continue',
-                                  );
-                                },
-                              );
+                            if (index == 0) {
+                              // Only for the first CommunityCard
+                              if (FirebaseAuth.instance.currentUser?.uid !=
+                                  null) {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return CreateProfileDialog(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        // Optionally navigate to another page
+                                        // nextPage(context, SomePage());
+                                      },
+                                      title: 'Welcome to Chapter SF',
+                                      description:
+                                          'To switch communities, go to Settings in the Profile section. Enjoy connecting with your new tribe!',
+                                      imagePath: 'icons/welcomedialog.svg',
+                                      buttonText: 'Continue',
+                                    );
+                                  },
+                                );
+                              } else {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return CreateProfileDialog(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                        nextPage(context, LoginPage());
+                                      },
+                                      title: 'Create Profile',
+                                      description:
+                                          'Create your profile to join the community, find compatible roommates, and enjoy the best experience.',
+                                      imagePath: 'icons/createprofile.svg',
+                                      buttonText: 'Continue',
+                                    );
+                                  },
+                                );
+                              }
                             }
+                            // Optionally, handle taps for non-first items or do nothing
                           },
                           child: CommunityCard2(
                             category:
@@ -133,7 +138,7 @@ class HomeScreen2 extends StatelessWidget {
                             address:
                                 '${community['distance_from_venue']} from venue',
                             imageUrl: community['image_url'],
-                            type: ' jfs',
+                            type: 'jfs',
                             // distanceFromVenue: community['distance_from_venue'],
                           ),
                         );

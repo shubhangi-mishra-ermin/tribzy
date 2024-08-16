@@ -54,7 +54,7 @@ class _EventPageState extends State<EventPage> {
                     ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: 5,
+                      itemCount: 1,
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
@@ -63,9 +63,9 @@ class _EventPageState extends State<EventPage> {
                           child: EventCard(
                             // rating: 4.2,
                             // type: 'Private',
-                            category: 'Yoga Class',
-                            name: 'Sun, Jul 14 | 10:00 AM EDT',
-                            address: '123 Main St., Downtown Area',
+                            category: 'Tribzy x BLVD Move-In Day Pool Party',
+                            name: 'Fri, Aug 16 | 7:00 PM EDT',
+                            address: 'BLVD Gainesville, Florida',
                             imageUrl: 'images/Mask group.png', dateTime: '',
                           ),
                         );
