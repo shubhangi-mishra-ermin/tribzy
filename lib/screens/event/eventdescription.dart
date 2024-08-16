@@ -30,8 +30,8 @@ class _EventDescriptionScreenState extends State<EventDescriptionScreen> {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(12.0),
-            child: SvgPicture.asset(
-              'images/part pic.svg',
+            child: Image.network(
+              'https://www.swamprentals.com/uploads/images/IMG_4254.jpg',
               height: 200,
               width: double.infinity,
               fit: BoxFit.cover,

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:country_state_picker/country_state_picker.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -368,6 +369,16 @@ class _Step1Content2State extends State<Step1Content2> {
     }
   }
 
+  String? selectedCountry;
+  String? selectedState;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedCountry = widget.initialData['country'];
+    selectedState = widget.initialData['state'];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -481,27 +492,23 @@ class _Step1Content2State extends State<Step1Content2> {
                             ),
                           ),
                     SizedBox(height: 20),
-                    CustomDropdownField(
-                        label: '3. Which country are you from?',
-                        controller: widget.countryController,
-                        items: [
-                          'Select Country',
-                          'India',
-                          'Country 1',
-                          'Country 2'
-                        ],
-                        initialValue: widget.initialData['country'] == ''
-                            ? 'Select Country'
-                            : widget.initialData['country']),
-                    SizedBox(height: 20),
-                    CustomDropdownField(
-                      label: '4. Which state are you from?',
-                      controller: widget.stateController,
-                      items: ['Select State', 'Delhi', 'State 1', 'State 2'],
-                      initialValue: widget.initialData['state'] == null ||
-                              widget.initialData['state'] == ''
-                          ? 'Select State'
-                          : widget.initialData['state'],
+                    CountryStatePicker(
+                      onCountryChanged: (country) {
+                        setState(() {
+                          selectedCountry = country;
+                          selectedState = null;
+                          widget.countryController.text = country;
+                          widget.stateController.clear();
+                        });
+                      },
+                      onStateChanged: (state) {
+                        setState(() {
+                          selectedState = state;
+                          widget.stateController.text = state;
+                        });
+                      },
+                      // selectedCountry: selectedCountry,
+                      // selectedState: selectedState,
                     ),
                     SizedBox(height: 20),
                     Text('12. Linkedin url', style: AppTextStyle.semibold16),

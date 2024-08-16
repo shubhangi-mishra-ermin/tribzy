@@ -35,7 +35,7 @@ class _EventCardState extends State<EventCard> {
           children: [
             Stack(
               children: [
-                Image.asset(
+                Image.network(
                   widget.imageUrl,
                   width: 120,
                   height: 120,

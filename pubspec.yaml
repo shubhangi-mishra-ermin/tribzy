@@ -68,6 +68,7 @@ dependencies:
   image: ^4.2.0
   file_picker: ^8.0.5
   dotted_border: ^2.1.0
+  country_state_picker: ^0.0.5
   
 dev_dependencies:
   flutter_test:

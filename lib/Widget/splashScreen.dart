@@ -6,11 +6,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tribzyco/screens/navigationPage2.dart';
 import 'package:tribzyco/screens/navigationpage.dart';
-import 'package:tribzyco/screens/onboardingScreens/OnBoarding.dart'; 
+import 'package:tribzyco/screens/onboardingScreens/OnBoarding.dart';
 import 'package:tribzyco/utilities/colors.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:location/location.dart' as loc;
-import 'package:tribzyco/main.dart'; 
+import 'package:tribzyco/main.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -35,7 +35,8 @@ class _SplashScreenState extends State<SplashScreen> {
     }
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => user != null ? _getHomeScreen() : OnBoarding()),
+      MaterialPageRoute(
+          builder: (context) => user != null ? _getHomeScreen() : OnBoarding()),
     );
   }
 
@@ -70,9 +71,9 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget _getHomeScreen() {
     bool? isInSanFrancisco = prefs!.getBool('isInSanFrancisco');
     if (isInSanFrancisco != null && isInSanFrancisco) {
-      return MainScreen2(); 
+      return MainScreen2();
     } else {
-      return MainScreen(); 
+      return MainScreen();
     }
   }
 

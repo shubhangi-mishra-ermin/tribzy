@@ -1,4 +1,4 @@
-
+import 'package:country_state_picker/country_state_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -310,6 +310,16 @@ class Step1Content extends StatefulWidget {
 }
 
 class _Step1ContentState extends State<Step1Content> {
+  String? selectedCountry;
+  String? selectedState;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedCountry = widget.initialData['country'];
+    selectedState = widget.initialData['state'];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -329,24 +339,44 @@ class _Step1ContentState extends State<Step1Content> {
                 style: AppTextStyle.semibold18,
               ),
             if (widget.showHeading) SizedBox(height: 20),
-            CustomDropdownField(
-              label: 'Which country are you from?',
-              controller: widget.countryController,
-              items: ['Select Country', 'India', 'Country 1', 'Country 2'],
-              initialValue: widget.initialData['country'] == ''
-                  ? 'Select Country'
-                  : widget.initialData['country'],
+            CountryStatePicker(
+              onCountryChanged: (country) {
+                setState(() {
+                  selectedCountry = country;
+                  selectedState = null;
+                  widget.countryController.text = country;
+                  widget.stateController.clear();
+                });
+              },
+              onStateChanged: (state) {
+                setState(() {
+                  selectedState = state;
+                  widget.stateController.text = state;
+                });
+              },
+              // selectedCountry: selectedCountry,
+              // selectedState: selectedState,
             ),
+            // CustomDropdownField(
+            //   label: 'Which country are you from?',
+            //   controller: widget.countryController,
+            //   items: ['Select Country', 'India', 'Country 1', 'Country 2'],
+            //   initialValue: widget.initialData['country'] == ''
+            //       ? 'Select Country'
+            //       : widget.initialData['country'],
+            // ),
+            // SizedBox(height: 20),
+            // CustomDropdownField(
+            //   label: 'Which state are you from?',
+            //   controller: widget.stateController,
+            //   items: ['Select State', 'Delhi', 'State 1', 'State 2'],
+            //   initialValue: widget.initialData['state'] == ''
+            //       ? 'Select State'
+            //       : widget.initialData['state'],
+            // ),
+
             SizedBox(height: 20),
-            CustomDropdownField(
-              label: 'Which state are you from?',
-              controller: widget.stateController,
-              items: ['Select State', 'Delhi', 'State 1', 'State 2'],
-              initialValue: widget.initialData['state'] == ''
-                  ? 'Select State'
-                  : widget.initialData['state'],
-            ),
-            SizedBox(height: 20),
+
             CustomDropdownField(
               label: 'What is your Age',
               controller: widget.ageController,

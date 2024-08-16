@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Tribzy',
+      // home: CompleteProfileScreen(userId: 'userId'),
       home: SplashScreen(),
     );
   }

@@ -10,18 +10,39 @@ import 'package:tribzyco/Widget/appbar.dart';
 import 'package:tribzyco/Widget/custombutton.dart';
 import 'package:tribzyco/authenctication/loginpage.dart';
 import 'package:tribzyco/globalvariables.dart';
+import 'package:tribzyco/main.dart';
 import 'package:tribzyco/utilities/colors.dart';
 import 'package:tribzyco/utilities/textstyles.dart';
 
-class CommunityDetails extends StatelessWidget {
-  final String communityName; // Add this parameter
+class CommunityDetails extends StatefulWidget {
+  final String communityName;
 
-  const CommunityDetails({super.key, required this.communityName});
+  const CommunityDetails({Key? key, required this.communityName}) : super(key: key);
 
+  @override
+  _CommunityDetailsState createState() => _CommunityDetailsState();
+}
+
+class _CommunityDetailsState extends State<CommunityDetails> {
+  late String _currentUserCredential;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentUserCredential = '';
+    _getCurrentUserCredential();
+  }
+
+  Future<void> _getCurrentUserCredential() async {
+    final user = FirebaseAuth.instance.currentUser;
+    setState(() {
+      _currentUserCredential = user != null ? user.uid : '';
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final CommunityDetailsController controller =
-        Get.put(CommunityDetailsController(communityName: communityName));
+        Get.put(CommunityDetailsController(communityName: widget.communityName));
 
     final Map<String, String> amenityIconMapping = {
       'bedroom': 'icons/bedroom.svg',
@@ -197,17 +218,18 @@ class CommunityDetails extends StatelessWidget {
                           .join(', '),
                     ),
                     SizedBox(height: 20),
-                    // CustomButton(
-                    //   text: 'Join Community',
-                    //   onPressed: currentUserCredential != null
-                    //       ? () {
-                    //           showSucessMessage(context, "Successfully joined");
-                    //           // Handle successful join
-                    //         }
-                    //       : () {
-                    //           nextPage(context, LoginPage());
-                    //         },
-                    // ),
+                    CustomButton(
+                      text: 'Join Community',
+                      onPressed:   _currentUserCredential.isEmpty
+
+                          ? () {
+                              showSucessMessage(context, "Successfully joined");
+                              // Handle successful join
+                            }
+                          : () {
+                              nextPage(context, LoginPage());
+                            },
+                    ),
                     SizedBox(height: 8),
                   ],
                 ),

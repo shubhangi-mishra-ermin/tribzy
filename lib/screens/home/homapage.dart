@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return isInSanFrancisco == false
+    return isInSanFrancisco ?? false
         ? HomeScreen2()
         : Scaffold(
             appBar: CustomAppBar(),

@@ -6,6 +6,7 @@ import 'package:tribzyco/Widget/appbar.dart';
 import 'package:tribzyco/Widget/createprofiledialog.dart';
 import 'package:tribzyco/authenctication/loginpage.dart';
 import 'package:tribzyco/globalvariables.dart';
+import 'package:tribzyco/main.dart';
 import 'package:tribzyco/utilities/colors.dart';
 import 'package:tribzyco/utilities/constants.dart';
 import 'package:tribzyco/utilities/textstyles.dart';
@@ -98,9 +99,29 @@ class _HomiesPageState extends State<HomiesPage> {
   }
 }
 
-class HomieCard extends StatelessWidget {
+class HomieCard extends StatefulWidget {
+  @override
+  _HomieCardState createState() => _HomieCardState();
+}
+
+class _HomieCardState extends State<HomieCard> {
+  bool? isInSanFrancisco;
+
+  @override
+  void initState() {
+    super.initState();
+    isInSanFrancisco = prefs!.getBool('isInSanFrancisco');
+    print("isInSanFrancisco :: $isInSanFrancisco");
+  }
+
   @override
   Widget build(BuildContext context) {
+    return isInSanFrancisco ?? false
+        ? _buildSanFranciscoCard()
+        : _buildDefaultCard();
+  }
+
+  Widget _buildSanFranciscoCard() {
     return Card(
       color: Colors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -114,7 +135,6 @@ class HomieCard extends StatelessWidget {
                 borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
                 child: Image.asset(
                   'images/image 133.png',
-                  // height: 200,
                   width: double.infinity,
                   fit: BoxFit.cover,
                 ),
@@ -206,7 +226,137 @@ class HomieCard extends StatelessWidget {
                 Row(
                   children: [
                     SvgPicture.asset('icons/hobbies.svg'),
-                    1.pw,
+                    SizedBox(width: 8),
+                    Text(
+                      'Hobbies and interests',
+                      style: AppTextStyle.semibold16,
+                    ),
+                  ],
+                ),
+                SizedBox(height: 8),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    InterestChip(label: 'Movies'),
+                    InterestChip(label: 'Anime'),
+                    InterestChip(label: 'Soccer'),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDefaultCard() {
+    return Card(
+      color: Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      elevation: 4,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                child: Image.asset(
+                  'images/WhatsApp Image 2024-07-27 at 8.43.49 PM (1) 1.png',
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              Positioned(
+                bottom: 0,
+                right: 16,
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: Colors.white,
+                      child: Icon(Icons.clear, color: primaryColor),
+                    ),
+                    SizedBox(width: 8),
+                    CircleAvatar(
+                      backgroundColor: primaryColor,
+                      child: Icon(Icons.favorite, color: Colors.white),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Shashank',
+                  style: AppTextStyle.bold20,
+                ),
+                SizedBox(height: 4),
+                Text(
+                  'Masters in CS',
+                  style: AppTextStyle.semibold16,
+                ),
+                SizedBox(height: 8),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Image.asset(
+                          'images/indiaflag.png',
+                          width: 24,
+                          height: 24,
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          'Pakistan',
+                          style: AppTextStyle.mediumgrey14,
+                        ),
+                        SizedBox(width: 8),
+                      ],
+                    ),
+                    SvgPicture.asset(
+                      'icons/linkedinIcon.svg',
+                      width: 24,
+                      height: 24,
+                    ),
+                  ],
+                ),
+                SizedBox(height: 16),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        SvgPicture.asset('icons/buildspace.svg'),
+                        SizedBox(width: 8),
+                        Text(
+                          'Buildspace',
+                          style: AppTextStyle.semibold16,
+                        ),
+                      ],
+                    ),
+                    Text(
+                      'Platform for Building your Ideas',
+                      style: AppTextStyle.mediumgrey14,
+                    ),
+                    Text(
+                      'Buildspace.com',
+                      style: AppTextStyle.semiboldpurple12,
+                    ),
+                  ],
+                ),
+                SizedBox(height: 16),
+                Row(
+                  children: [
+                    SvgPicture.asset('icons/hobbies.svg'),
+                    SizedBox(width: 8),
                     Text(
                       'Hobbies and interests',
                       style: AppTextStyle.semibold16,
